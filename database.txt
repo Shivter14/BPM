@@ -4,5 +4,5 @@ Name;SysShivt tools Stable downloads
 Info;The most advanced Batch OS with a Desktop Manager, Multi-Tasking, and more.
 DefaultDownload;UNAVALIABLE
 [Downloads]
--3.2.1;UNAVALIABLE
+3.2.1;UNAVALIABLE
 [\Downloads]
