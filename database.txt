@@ -2,6 +2,7 @@
 :SysShivt-tools
 Name;SysShivt tools Stable downloads
 Info;The most advanced Batch OS with a Desktop Manager, Multiprocessing, and more.
+LatestVer;3.2.1
 DefaultDownload;UNAVALIABLE;bat
 [Downloads]
 3.2.1;UNAVALIABLE;zip
@@ -9,8 +10,10 @@ DefaultDownload;UNAVALIABLE;bat
 :test
 Name;This is a test
 Info;This is a temporary item used to test BPM^!
+LatestVer;0
 DefaultDownload;UNAVALIABLE;cmd
 :SSVM
 Name;SSVM
 Info;SysShivt tools Virtual Machine (basically just a launcher)
+LatestVer;2.5.1
 DefaultDownload;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-5-1.zip;zip
