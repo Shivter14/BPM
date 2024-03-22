@@ -3,17 +3,20 @@ REM The Batch Package Manager - Created by Shivter and Sintrode
 setlocal enabledelayedexpansion
 chcp 65001 > nul 2>&1
 for /f %%a in ('echo prompt $E^| cmd') do set "\e=%%a"
+
+if not exist "%~dp0\packages"
+
 if "%~1"=="" goto --help
 if "%~1"=="/?" goto --help
 for %%a in (
-	"-$ --help" "-G --get" "-S --search" "-L --list" "-U --update" "-D --uninstall"
+	"-$ --help" "-G --get" "-S --search" "-L --list" "-U --update" "-D --uninstall" "-V --version"
 ) do for /f "tokens=1,2" %%b in (%%a) do (
 	set "option=%%~b"
 	if "%~1"=="!option:$=?!" call :%%~c %2 %3
 	if "%~1"=="%%~c" call :%*
 )
 exit /b
-:scan-db
+:parse-db
 set line=0
 set mode=#
 set all_items=
@@ -35,26 +38,29 @@ for /f "tokens=1* delims=;" %%a in ('type "%~dp0\database.txt"') do (
 		if "!token:~0,1!"==":" (
 			set mode=Item
 			set "item=!token:~1!"
+			set item.[!item!]=Hello this is defined qwq
 			set all_items=!all_items! "!token:~1!"
 		)
 	)
 )
 exit /b
 :get-db
-if exist "%~dp0\database.txt" del "%~dp0\database.txt"
+if exist "%~dp0database.txt" del "%~dp0database.txt"
 <nul set /p "=%\e%[38;2;255;255;255m"
-call curl -# -o "%~dp0\database.txt" "https://raw.githubusercontent.com/Shivter14/BPM/main/database.txt"
+call curl -# -o "%~dp0database.txt" "https://raw.githubusercontent.com/Shivter14/BPM/main/database.txt"
 <nul set /p "=%\e%[A%\e%[0m%\e%[J"
-if exist "%~dp0\database.txt" exit /b
+if exist "%~dp0database.txt" exit /b
 :db-err
 echo(Something went wrong. Check your internet connection.
 exit /b 1
 :--get
-
+call :get-db
+call :parse-db
+if not defined item.[%1]
 exit /b
 :--search
 call :get-db
-call :scan-db
+call :parse-db
 set mode.W=80
 for /f "tokens=2" %%a in ('mode con ^| find "Columns:"') do set /a "mode.W=%%~a"
 set /a mode
@@ -96,6 +102,9 @@ exit /b
 
 exit /b
 :--uninstall
+
+exit /b
+:--version
 
 exit /b
 :--help
