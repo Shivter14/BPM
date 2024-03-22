@@ -6,3 +6,6 @@ DefaultDownload;UNAVALIABLE
 [Downloads]
 3.2.1;UNAVALIABLE
 [\Downloads]
+:test
+Name;This is a test
+Info;This is a temporary item used to test BPM!
