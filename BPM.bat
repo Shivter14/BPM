@@ -105,7 +105,7 @@ for %%a in (
 	"%\e%[38;2;255;255;0m"
 	"Usage:|%\e%[38;2;0;255;255mBPM.bat|%\e%[38;2;0;255;0m<options> %\e%[38;2;255;255;0m<parameters>"
 	"== Options =="
-	"    -$|--help| |Displays the help prompt. (In case you forgot lol)"
+	"    -$|--help| |Displays the help prompt."
 	"    -V|--version|[<identifier>]|Displays the installed version of a specified package."
 	"      |         |              |If no ID is specified, displays all (Including BPM)."
 	"    -G|--get|<identifier>|Install a package by its identifier."
