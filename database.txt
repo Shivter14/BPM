@@ -1,11 +1,11 @@
 # BPM Database
 :SysShivt-tools
 Name;SysShivt tools Stable downloads
-Info;The most advanced Batch OS with a Desktop Manager, Multi-Tasking, and more.
+Info;The most advanced Batch OS with a Desktop Manager, Multiprocessing, and more.
 DefaultDownload;UNAVALIABLE
 [Downloads]
 3.2.1;UNAVALIABLE
 [\Downloads]
 :test
 Name;This is a test
-Info;This is a temporary item used to test BPM!
+Info;This is a temporary item used to test BPM^!
