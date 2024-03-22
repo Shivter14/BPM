@@ -82,9 +82,11 @@ for %%a in (%all_items%) do (
 	if "!item.[%%~a].Info:~%tab_len%,1!" neq "" (set append=...
 	) else set append=
 	set cache=%\e%[38;2;0;255;255m%%~a%\e%[38;2;0;255;0m%\e%[!tab_one!G!item.[%%~a].Name!%\e%[38;2;255;255;0m%\e%[!tab_two!G!item.[%%~a].Info:~0,%tab_len%!%\e%[38;2;255;255;255m!append!
-	set newcache=!cache!
-	for %%a in (%*) do set newcache=!newcache:%%~a=!
-	if "!newcache!" neq "!cache!" echo(!cache!
+	if "%~1" neq "" (
+		set newcache=!cache!
+		for %%a in (%*) do set newcache=!newcache:%%~a=!
+		if "!newcache!" neq "!cache!" echo(!cache!
+	) else echo(!cache!
 )
 exit /b
 :--list
@@ -101,8 +103,11 @@ for %%a in (
 	"BMP.bat|%\e%[38;2;0;255;0m  The Universal Batch Package Manager."
 	" |%\e%[38;2;0;255;0m  Created by: %\e%[38;2;255;255;0mShivter, Sintrode"
 	"%\e%[38;2;255;255;0m"
-	"== Parameters =="
+	"Usage:|%\e%[38;2;0;255;255mBPM.bat|%\e%[38;2;0;255;0m<options> %\e%[38;2;255;255;0m<parameters>"
+	"== Options =="
 	"    -$|--help| |Displays the help prompt. (In case you forgot lol)"
+	"    -V|--version|[<identifier>]|Displays the installed version of a specified package."
+	"      |         |              |If no ID is specified, displays all (Including BPM)."
 	"    -G|--get|<identifier>|Install a package by its identifier."
 	"    -S|--search|<keywords>|Searches for packages by keywords."
 	"    -L|--list|[<keywords>]|Lists installed packages."
