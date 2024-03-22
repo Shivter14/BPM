@@ -9,3 +9,8 @@ DefaultDownload;UNAVALIABLE
 :test
 Name;This is a test
 Info;This is a temporary item used to test BPM^!
+DefaultDownload;UNAVALIABLE
+:SSVM
+Name;SSVM
+Info;SysShivt tools Virtual Machine (basically just a launcher)
+DefaultDownload;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-5-1.zip
