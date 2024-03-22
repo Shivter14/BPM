@@ -3,23 +3,15 @@ REM The Batch Package Manager - Created by Shivter and Sintrode
 setlocal enabledelayedexpansion
 chcp 65001 > nul 2>&1
 for /f %%a in ('echo prompt $E^| cmd') do set "\e=%%a"
-if _%1==_ goto help
-for %%a in ("/?" "-?" "--help") do if "%~1"==%%a goto help
+if "%~1"=="" goto --help
+if "%~1"=="/?" goto --help
 for %%a in (
-	"-$ --help"
-	"-G --get"
-	"-S --search"
-	"-L --list"
-	"-U --update"
-	"-D --uninstall"
+	"-$ --help" "-G --get" "-S --search" "-L --list" "-U --update" "-D --uninstall"
 ) do for /f "tokens=1,2" %%b in (%%a) do (
 	set "option=%%~b"
-	if %1 == !option:$=?! call :%%~c %1 %2
-	if %1 == %%~c call :%*
+	if "%~1"=="!option:$=?!" call :%%~c %1 %2
+	if "%~1"=="%%~c" call :%*
 )
-exit /b
-:--help
-
 exit /b
 :--get
 
@@ -36,7 +28,7 @@ exit /b
 :--uninstall
 
 exit /b
-:help
+:--help
 for %%a in (
 	"BMP.bat|%\e%[38;2;0;255;0m  The Universal Batch Package Manager."
 	" |%\e%[38;2;0;255;0m  Created by: %\e%[38;2;255;255;0mShivter, Sintrode"
