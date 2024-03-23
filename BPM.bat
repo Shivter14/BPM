@@ -1,6 +1,7 @@
 @echo off
 REM The Batch Package Manager - Created by Shivter and Sintrode
 setlocal enabledelayedexpansion
+set BPM.ver=Beta 1.0.0
 chcp 65001 > nul 2>&1
 for /f %%a in ('echo prompt $E^| cmd') do set "\e=%%a"
 
@@ -9,7 +10,7 @@ if not exist "%~dp0\packages" md "%~dp0\packages"
 if "%~1"=="" goto --help
 if "%~1"=="/?" goto --help
 for %%a in (
-	"-$ --help" "-I --install" "-S --search" "-L --list" "-U --update" "-D --uninstall" "-V --version"
+	"-$ --help" "-I --install" "-S --search" "-L --list" "-U --update" "-D --uninstall" "-V --version" "-H --info"
 ) do for /f "tokens=1,2" %%b in (%%a) do (
 	set "option=%%~b"
 	if /I "%~1"=="!option:$=?!" (
@@ -49,7 +50,7 @@ for /f "tokens=1* delims=;" %%a in ('type "%~dp0\database.txt"') do (
 	if "!token:~0,1!"==":" (
 		set mode=Item
 		set "item=!token:~1!"
-		set item.[!item!]=Hello this is defined qwq
+		set "item.[!item!]=!item!"
 		set all_items=!all_items! "!token:~1!"
 	)
 )
@@ -215,7 +216,9 @@ for %%a in (%*) do for /f "tokens=1,2 delims=:" %%i in ("%%~a") do if defined in
 		) else REM   \/
 	) else REM Todo: Add handeling for invalid package types
 ) else (
-	echo(%\e%[38;2;255;127;127mThe package "%%~a" was not found.%\e%[E%\e%[38;2;255;255;127mMake sure you didn't use quotes. The IDs are also case sensitive.%\e%[EIf you're looking for something, try using '%\e%[38;2;0;255;255mBPM --search%\e%[38;2;255;255;127m'.%\e%[38;2;255;255;255m
+	echo(%\e%[38;2;255;127;127mThe package "%%~a" was not found.
+	echo(%\e%[38;2;255;255;127mMake sure you didn't use quotes. The IDs are also case sensitive.
+	echo(If you're looking for something, try using '%\e%[38;2;0;255;255mBPM --search%\e%[38;2;255;255;127m'.%\e%[38;2;255;255;255m
 	set return=1
 )
 :x
@@ -277,6 +280,27 @@ for %%a in (%installed%) do (
 echo(%\e%[38;2;0;255;255mIf you want to get more information about a specified package,
 echo(use `%\e%[38;2;0;255;0mBPM --info %\e%[38;2;255;255;0m^<Package name^>%\e%[38;2;0;255;255m`%\e%[38;2;255;255;255m
 exit /b
+:--info
+call :get-db
+call :get-installed
+if "%~1"=="" exit /b 1
+if defined item.[%~1] (
+	echo(%\e%[38;2;0;255;255m'!item.[%~1]!' - %\e%[38;2;127;255;255m!item.[%~1].Name!
+	echo(%\e%[38;2;255;255;255m!item.[%~1].Info!
+	echo(
+	echo(%\e%[38;2;0;255;255mLatest version: %\e%[38;2;127;255;255m!item.[%~1].LatestVer!
+	echo(%\e%[38;2;0;255;255mAvaliable versions:%\e%[38;2;127;255;255m
+	for %%a in (!item.[%~1].downloads!) do echo(    %%~a
+	echo(%\e%[38;2;255;255;255m
+) else if defined installed.[%~1] (
+	echo(%\e%[38;2;255;255;127mPackage "%~1" is installed, but it's not in the database.
+	echo(%\e%[38;2;255;127;127mThis means It was removed by the BPM administrators.
+	echo(%\e%[38;2;255;255;127mYou should uninstall this package using `%\e%[38;2;0;255;0mBPM --uninstall %1%\e%[38;2;255;255;127m`%\e%[38;2;255;255;255m
+) else (
+	echo(%\e%[38;2;255;255;127mPackage "%~1" was not found.%\e%[38;2;255;255;255m
+	exit /b 1
+)
+exit /b 0
 :--update
 
 exit /b
