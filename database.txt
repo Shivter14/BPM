@@ -17,3 +17,6 @@ Name;SSVM
 Info;SysShivt tools Virtual Machine (basically just a launcher)
 LatestVer;2.5.1
 DefaultDownload;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-5-1.zip;zip
+[Downloads]
+2.5.1;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-5-1.zip;zip
+[\Downloads]
