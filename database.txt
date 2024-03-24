@@ -23,7 +23,7 @@ DefaultDownload;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/
 [Downloads]
 2.5.1;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-5-1.zip;zip
 [\Downloads]
-:super-monster-tiddies
+:icarus-batch-lib
 Name;Windows Batch Library (Win10 or later)
 Info;Expand the list of commands you use in Batch with Library.bat!\nThe Window Batch Library is a collection of pre-written macros, functions, and\nconstants that can be used to simplify and speed up the process of creating\ncommand-line interfaces (CLIs) and other types of text-based user interfaces\n(TUIs). This library includes a wide range of functions and macros,\nincluding standard console manipulations, mathematical calculations,\ncolor and text formatting, and mouse input.
 Authors;Icarus
