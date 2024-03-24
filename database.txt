@@ -27,6 +27,7 @@ DefaultDownload;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/
 Name;Windows Batch Library (Win10 or later)
 Info;Expand the list of commands you use in Batch with Library.bat!\nThe Window Batch Library is a collection of pre-written macros, functions, and\nconstants that can be used to simplify and speed up the process of creating\ncommand-line interfaces (CLIs) and other types of text-based user interfaces\n(TUIs). This library includes a wide range of functions and macros,\nincluding standard console manipulations, mathematical calculations,\ncolor and text formatting, and mouse input.
 Authors;Icarus
+LatestVer;4.1.4
 DefaultDownload;https://raw.githubusercontent.com/IcarusLivesHF/Windows-Batch-Library/master/Library.bat;bat
 [Downloads]
 4.1.4;https://raw.githubusercontent.com/IcarusLivesHF/Windows-Batch-Library/master/Library.bat;bat
