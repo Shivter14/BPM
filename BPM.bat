@@ -2,7 +2,7 @@
 REM The Batch Package Manager - Created by Shivter and Sintrode
 REM Todo: --update, --uninstall, --version
 setlocal enabledelayedexpansion
-set BPM.ver=Beta 1.0.0
+set BPM.ver=Beta 1.1.0
 chcp 65001 > nul 2>&1
 for /f %%a in ('echo prompt $E^| cmd') do set "\e=%%a"
 
