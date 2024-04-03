@@ -1,5 +1,6 @@
 @echo off
 REM The Batch Package Manager - Created by Shivter and Sintrode
+REM Todo: --update, --uninstall, --version
 setlocal enabledelayedexpansion
 set BPM.ver=Beta 1.0.0
 chcp 65001 > nul 2>&1
@@ -23,6 +24,7 @@ for %%a in (
 )
 exit /b -1
 :get-db
+for /f "tokens=1 delims==" %%a in ('set item.[ 2^>nul') do set "%%~a="
 if exist "%~dp0database.txt" del "%~dp0database.txt"
 <nul set /p "=%\e%[38;2;255;255;255m"
 cmd /c curl -# -o "%~dp0database.txt" "https://raw.githubusercontent.com/Shivter14/BPM/main/database.txt"
@@ -30,7 +32,7 @@ cmd /c curl -# -o "%~dp0database.txt" "https://raw.githubusercontent.com/Shivter
 if not exist "%~dp0database.txt" goto db-err
 set line=0
 set mode=#
-set all_items=
+set items=
 for /f "tokens=1* delims=;" %%a in ('type "%~dp0\database.txt"') do (
 	set "token=%%~a"
 	set /a line+=1
@@ -51,7 +53,7 @@ for /f "tokens=1* delims=;" %%a in ('type "%~dp0\database.txt"') do (
 		set mode=Item
 		set "item=!token:~1!"
 		set "item.[!item!]=!item!"
-		set all_items=!all_items! "!token:~1!"
+		set items=!items! "!token:~1!"
 	)
 )
 exit /b
@@ -194,7 +196,7 @@ for %%a in (%*) do for /f "tokens=1,2 delims=:" %%i in ("%%~a") do if defined in
 	)
 	if defined packagetype (
 		if /I "!packagetype!"=="zip" (
-			call curl -# -o "%~dp0BPM-temp\package.zip" "!link!"
+			cmd /c curl -# -o "%~dp0BPM-temp\package.zip" "!link!"
 			if not exist "%~dp0packages\!packageid!" md "%~dp0packages\!packageid!"
 			set "returndir=%cd%"
 			cd "%~dp0packages\!packageid!\"
@@ -206,13 +208,30 @@ for %%a in (%*) do for /f "tokens=1,2 delims=:" %%i in ("%%~a") do if defined in
 			) else (
 				echo(!packageid!;zip;!packagever!>> "%~dp0BPM-LocalPackages.txt"
 				cd "!returndir!"
+				echo(%\e%[38;2;255;255;127mPackage "!packageid!" was installed successfully.%\e%[38;2;255;255;255m
 			)
 		) else if /I "!packagetype!"=="bat" (
-			call curl -# -o "%~dp0packages\!packageid!.bat" "!link!"
-			echo(!packageid!;bat;!packagever!>> "%~dp0BPM-LocalPackages.txt"
+			cmd /c curl -# -o "%~dp0packages\!packageid!.bat" "!link!"
+			if not exist "%~dp0packages\!packageid!.bat" cmd /c exit /b 1
+			if ERRORLEVEL 1 (
+				echo(%\e%[38;2;255;127;127mSomething went wrong while installing package "!packageid!" version !packagever!.
+				echo(Errorlevel: !errorlevel!%\e%[38;2;255;255;255m
+			) else (
+				echo(!packageid!;zip;!packagever!>> "%~dp0BPM-LocalPackages.txt"
+				cd "!returndir!"
+				echo(%\e%[38;2;255;255;127Package "!packageid!" was installed successfully.%\e%[38;2;255;255;255m
+			)
 		) else if /I "!packagetype!"=="cmd" (
-			call curl -# -o "%~dp0packages\!packageid!.cmd" "!link!"
-			echo(!packageid!;cmd;!packagever!>> "%~dp0BPM-LocalPackages.txt"
+			cmd /c curl -# -o "%~dp0packages\!packageid!.cmd" "!link!"
+			if not exist "%~dp0packages\!packageid!.bat" cmd /c exit /b 1
+			if ERRORLEVEL 1 (
+				echo(%\e%[38;2;255;127;127mSomething went wrong while installing package "!packageid!" version !packagever!.
+				echo(Errorlevel: !errorlevel!%\e%[38;2;255;255;255m
+			) else (
+				echo(!packageid!;zip;!packagever!>> "%~dp0BPM-LocalPackages.txt"
+				cd "!returndir!"
+				echo(%\e%[38;2;255;255;127Package "!packageid!" was installed successfully.%\e%[38;2;255;255;255m
+			)
 		) else REM   \/
 	) else REM Todo: Add handeling for invalid package types
 ) else (
@@ -231,7 +250,14 @@ for /f "tokens=2" %%a in ('mode con ^| find "Columns:"') do set /a "mode.W=%%~a"
 set /a mode
 set tab_one=0
 set tab_two=0
-for %%a in (%all_items%) do (
+for %%a in (!items!) do (
+	set "cache=%%~a"
+	set "newcache=%%~a"
+	if "%~1" neq "" (
+		for %%b in (%*) do set "newcache=!newcache:%%~b=!"
+	) else set newcache=
+	if "!cache!" neq "!newcache!" (
+
 	set "string=x%%~a"
 	set "stringlen=0"
 	for /l %%b in (9,-1,0) do (set /a "stringlen|=1<<%%b"
@@ -245,20 +271,23 @@ for %%a in (%all_items%) do (
 		for %%c in (!stringlen!) do if "!string:~%%c,1!" equ "" set /a "stringlen&=~1<<%%b"
 	)
 	if !stringlen! gtr !tab_two! set tab_two=!stringlen!
-)
-set /a tab_one+=3
-set /a tab_two+=%tab_one%+2
-set /a tab_len=!mode.W!-!tab_two!-3
-for %%a in (%all_items%) do (
-	if "!item.[%%~a].Info:~%tab_len%,1!" neq "" (set append=...
-	) else set append=
-	set cache=%\e%[38;2;0;255;255m%%~a%\e%[38;2;0;255;0m%\e%[!tab_one!G!item.[%%~a].Name!%\e%[38;2;255;255;0m%\e%[!tab_two!G!item.[%%~a].Info:~0,%tab_len%!%\e%[38;2;255;255;255m!append!
+))
+set "tab_header=────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────"
+set /a "tab_one+=4", "tab_two+=tab_one+3", "tab_len=!mode.W!-tab_two-5", "tab_HW=!mode.W!-2"
+echo(%\e%[48;2;63;63;63m%\e%[0K%\e%[38;2;0;0;0m┌!tab_header:~0,%tab_HW%!┐%\e%[!tab_one!G┬%\e%[!tab_two!G┬
+for %%a in (!items!) do (
+	set "info=!item.[%%~a].Info:~0,%tab_len%!"
+	for /f "tokens=1 delims=×" %%b in ("!info:\n=×!") do set "info=%%~b"
+	if "!item.[%%~a].Info:~%tab_len%,1!" neq "" (set append=...%\e%[38;2;0;0;0m│
+	) else set append=%\e%[!mode.W!G%\e%[38;2;0;0;0m│
+	set cache=%\e%[48;2;63;63;63m%\e%[0K%\e%[38;2;0;0;0m│ %\e%[38;2;0;255;255m%%~a%\e%[!tab_one!G%\e%[38;2;0;0;0m│ %\e%[38;2;0;255;0m!item.[%%~a].Name!%\e%[!tab_two!G%\e%[38;2;0;0;0m│ %\e%[38;2;255;255;0m!item.[%%~a].Info:~0,%tab_len%!%\e%[38;2;255;255;255m!append!
 	if "%~1" neq "" (
 		set newcache=!cache!
 		for %%a in (%*) do set newcache=!newcache:%%~a=!
-		if "!newcache!" neq "!cache!" echo(!cache!
-	) else echo(!cache!
+		if "!newcache!" neq "!cache!" echo(!cache!%\e%[0m
+	) else echo(!cache!%\e%[0m
 )
+echo(%\e%[48;2;63;63;63m%\e%[0K%\e%[38;2;0;0;0m└!tab_header:~0,%tab_HW%!┘%\e%[!tab_one!G┴%\e%[!tab_two!G┴%\e%[38;2;255;255;255m%\e%[48;2;0;0;0m
 exit /b
 :--list
 call :get-installed
@@ -286,7 +315,7 @@ call :get-installed
 if "%~1"=="" exit /b 1
 if defined item.[%~1] (
 	echo(%\e%[38;2;0;255;255m'!item.[%~1]!' - %\e%[38;2;127;255;255m!item.[%~1].Name!
-	echo(%\e%[38;2;255;255;255m!item.[%~1].Info!
+	for %%a in ("!item.[%~1].info:\n=" "!") do echo(%\e%[38;2;255;255;255m%%~a
 	echo(
 	echo(%\e%[38;2;0;255;255mLatest version: %\e%[38;2;127;255;255m!item.[%~1].LatestVer!
 	echo(%\e%[38;2;0;255;255mAvaliable versions:%\e%[38;2;127;255;255m
