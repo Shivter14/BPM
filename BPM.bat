@@ -2,8 +2,7 @@
 REM The Batch Package Manager - Created by Shivter and Sintrode
 REM Todo: --update, --uninstall, --version
 setlocal enabledelayedexpansion
-set BPM.ver=Beta 1.1.0
-chcp 65001 > nul 2>&1
+set BPM.ver=Stable 1.0.0
 for /f %%a in ('echo prompt $E^| cmd') do set "\e=%%a"
 
 if not exist "%~dp0\packages" md "%~dp0\packages"
@@ -11,7 +10,7 @@ if not exist "%~dp0\packages" md "%~dp0\packages"
 if "%~1"=="" goto --help
 if "%~1"=="/?" goto --help
 for %%a in (
-	"-$ --help" "-I --install" "-S --search" "-L --list" "-U --update" "-D --uninstall" "-V --version" "-H --info"
+	"-$ --help" "-I --install" "-S --search" "-L --list" "-U --update" "-R --uninstall" "-V --version" "-H --info"
 ) do for /f "tokens=1,2" %%b in (%%a) do (
 	set "option=%%~b"
 	if /I "%~1"=="!option:$=?!" (
@@ -56,7 +55,7 @@ for /f "tokens=1* delims=;" %%a in ('type "%~dp0\database.txt"') do (
 		set items=!items! "!token:~1!"
 	)
 )
-exit /b
+exit /b 0
 :db-err
 echo(Something went wrong. Check your internet connection.
 exit /b 1
@@ -70,9 +69,9 @@ for /f "tokens=1-3 eol=# delims=;" %%a in ('type "%~dp0BPM-LocalPackages.txt"') 
 	set "installed.[%%~a]=%%~c"
 	set "installed.[%%~a].type=%%~b"
 )
-exit /b
+exit /b 0
 :update
-for %%a in (%installed%) do (
+for %%a in (!installed!) do (
 	set "installed.[%%~a]="
 	set "installed.[%%~a].type="
 )
@@ -84,7 +83,8 @@ set "update.link=%~4"
 if "!installed.[%update.package%].type!" neq "!packagetype!" (
 	echo(%\e%[38;2;255;127;127mFailed to update "%update.package%":
 	echo(    Package types aren't equal: "!installed.[%update.package%].type!", "!packagetype!"
-	echo(Packages with unequal types cannot be upgraded.%\e%[38;2;255;255;255m
+	echo(Packages with unequal types cannot be upgraded.
+	echo(Try selecting a different version to update to.%\e%[38;2;255;255;255m
 	exit /b 1
 )
 if /I "!update.packagetype!"=="zip" (
@@ -133,8 +133,9 @@ if /I "!update.packagetype!"=="zip" (
 echo(%\e%[38;2;255;255;127mPackage "!update.package!" has been updated successfully.%\e%[38;2;255;255;255m
 exit /b
 :--install
-call :get-db
-call :get-installed
+<nul set /p "=%\e%[38;2;255;255;255m"
+call :get-db || exit /b !errorlevel!
+call :get-installed || exit /b !errorlevel!
 if not exist "%~dp0BPM-temp" (
 	md "%~dp0BPM-temp"
 ) else (
@@ -200,7 +201,7 @@ for %%a in (%*) do for /f "tokens=1,2 delims=:" %%i in ("%%~a") do if defined in
 			if not exist "%~dp0packages\!packageid!" md "%~dp0packages\!packageid!"
 			set "returndir=%cd%"
 			cd "%~dp0packages\!packageid!\"
-			tar -xf "%~dp0BPM-temp\package.zip"
+			cmd /c tar -xf "%~dp0BPM-temp\package.zip"
 			if exist "install.bat" call install.bat "!packageid!"
 			if ERRORLEVEL 1 (
 				echo(Something went wrong while installing package "!packageid!" version !packagever!.
@@ -217,9 +218,9 @@ for %%a in (%*) do for /f "tokens=1,2 delims=:" %%i in ("%%~a") do if defined in
 				echo(%\e%[38;2;255;127;127mSomething went wrong while installing package "!packageid!" version !packagever!.
 				echo(Errorlevel: !errorlevel!%\e%[38;2;255;255;255m
 			) else (
-				echo(!packageid!;zip;!packagever!>> "%~dp0BPM-LocalPackages.txt"
+				echo(!packageid!;bat;!packagever!>> "%~dp0BPM-LocalPackages.txt"
 				cd "!returndir!"
-				echo(%\e%[38;2;255;255;127Package "!packageid!" was installed successfully.%\e%[38;2;255;255;255m
+				echo(%\e%[38;2;255;255;127mPackage "!packageid!" was installed successfully.%\e%[38;2;255;255;255m
 			)
 		) else if /I "!packagetype!"=="cmd" (
 			cmd /c curl -# -o "%~dp0packages\!packageid!.cmd" "!link!"
@@ -228,9 +229,9 @@ for %%a in (%*) do for /f "tokens=1,2 delims=:" %%i in ("%%~a") do if defined in
 				echo(%\e%[38;2;255;127;127mSomething went wrong while installing package "!packageid!" version !packagever!.
 				echo(Errorlevel: !errorlevel!%\e%[38;2;255;255;255m
 			) else (
-				echo(!packageid!;zip;!packagever!>> "%~dp0BPM-LocalPackages.txt"
+				echo(!packageid!;cmd;!packagever!>> "%~dp0BPM-LocalPackages.txt"
 				cd "!returndir!"
-				echo(%\e%[38;2;255;255;127Package "!packageid!" was installed successfully.%\e%[38;2;255;255;255m
+				echo(%\e%[38;2;255;255;127mPackage "!packageid!" was installed successfully.%\e%[38;2;255;255;255m
 			)
 		) else REM   \/
 	) else REM Todo: Add handeling for invalid package types
@@ -242,14 +243,15 @@ for %%a in (%*) do for /f "tokens=1,2 delims=:" %%i in ("%%~a") do if defined in
 )
 :x
 if exist "%~dp0BPM-temp" rd /s /q "%~dp0BPM-temp"
-exit /b %return%
+exit /b !return!
 :--search
-call :get-db
+call :get-db || exit /b 1
 set mode.W=80
 for /f "tokens=2" %%a in ('mode con ^| find "Columns:"') do set /a "mode.W=%%~a"
 set /a mode
 set tab_one=0
 set tab_two=0
+chcp 65001 > nul 2>&1
 for %%a in (!items!) do (
 	set "cache=%%~a"
 	set "newcache=%%~a"
@@ -277,7 +279,7 @@ set /a "tab_one+=4", "tab_two+=tab_one+3", "tab_len=!mode.W!-tab_two-5", "tab_HW
 echo(%\e%[48;2;63;63;63m%\e%[0K%\e%[38;2;0;0;0m┌!tab_header:~0,%tab_HW%!┐%\e%[!tab_one!G┬%\e%[!tab_two!G┬
 for %%a in (!items!) do (
 	set "info=!item.[%%~a].Info:~0,%tab_len%!"
-	for /f "tokens=1 delims=×" %%b in ("!info:\n=×!") do set "info=%%~b"
+	for /f "tokens=1 delims=¤" %%b in ("!info:\n=¤!") do set "info=%%~b"
 	if "!item.[%%~a].Info:~%tab_len%,1!" neq "" (set append=...%\e%[38;2;0;0;0m│
 	) else set append=%\e%[!mode.W!G%\e%[38;2;0;0;0m│
 	set cache=%\e%[48;2;63;63;63m%\e%[0K%\e%[38;2;0;0;0m│ %\e%[38;2;0;255;255m%%~a%\e%[!tab_one!G%\e%[38;2;0;0;0m│ %\e%[38;2;0;255;0m!item.[%%~a].Name!%\e%[!tab_two!G%\e%[38;2;0;0;0m│ %\e%[38;2;255;255;0m!item.[%%~a].Info:~0,%tab_len%!%\e%[38;2;255;255;255m!append!
@@ -293,7 +295,7 @@ exit /b
 call :get-installed
 echo(%\e%[38;2;0;255;255mInstalled Packages:%\e%[38;2;255;255;0m
 set tab=7
-for %%a in (%installed%) do (
+for %%a in (!installed!) do (
 	set "string=x%%~a"
 	set "stringlen=0"
 	for /l %%b in (9,-1,0) do (set /a "stringlen|=1<<%%b"
@@ -303,15 +305,16 @@ for %%a in (%installed%) do (
 )
 set /a tab+=6
 echo(    Version%\e%[!tab!G│ Package name%\e%[38;2;255;255;127m
-for %%a in (%installed%) do (
+for %%a in (!installed!) do (
 	echo(    !installed.[%%~a]!%\e%[!tab!G│ %%~a
 )
 echo(%\e%[38;2;0;255;255mIf you want to get more information about a specified package,
 echo(use `%\e%[38;2;0;255;0mBPM --info %\e%[38;2;255;255;0m^<Package name^>%\e%[38;2;0;255;255m`%\e%[38;2;255;255;255m
 exit /b
 :--info
-call :get-db
-call :get-installed
+<nul set /p "=%\e%[38;2;255;255;255m"
+call :get-db || exit /b !errorlevel!
+call :get-installed || exit /b !errorlevel!
 if "%~1"=="" exit /b 1
 if defined item.[%~1] (
 	echo(%\e%[38;2;0;255;255m'!item.[%~1]!' - %\e%[38;2;127;255;255m!item.[%~1].Name!
@@ -331,13 +334,112 @@ if defined item.[%~1] (
 )
 exit /b 0
 :--update
-
+call :get-db || exit /b !errorlevel!
+call :get-installed || exit /b !errorlevel!
+if not exist "%~dp0BPM-temp" (
+	md "%~dp0BPM-temp"
+) else (
+	echo(%\e%[38;2;255;255;255mIt seems like other packages are installing,
+	echo(or an installation was cancelled unexpectedly.
+	echo(Are you sure you want to continue installing^?
+	choice
+	if "!errorlevel!" neq "1" exit /b
+	del /Q "%~dp0BPM-temp">nul	%= rem   Just in case if somebody decided to make a file with the name "BPM-temp" =%
+	if not exist "%~dp0BPM-temp" md "%~dp0BPM-temp"
+)
+set return=0
+for %%a in (%*) do for /f "tokens=1,2 delims=:" %%i in ("%%~a") do if defined installed.[%%~i] (
+	set packagever=
+	set return=
+	if "%%~j"=="" (
+		set "packagever=!item.[%%~i].latestVer!"
+		for /f "tokens=1,2 delims=;" %%x in ("!item.[%%~i].defaultDownload!") do (%= rem   The link format is actually "<link>;<package type>". This seperates it.=%
+			set "link=%%~x"
+			set "packagetype=%%~y"
+		)
+	) else (
+		if defined item.[%%~i].download.[%%~j] (
+			set "packagever=%%~j"
+		) else (
+			echo(%\e%[38;2;255;127;127mThe package version "%%~j" for "%%~i" was not found.
+			echo(%\e%[38;2;255;255;127mIf you're looking for a specific version of a package, try using '%\e%[38;2;0;255;255mBPM --info ^<package name^>%\e%[38;2;255;255;127m'.%\e%[38;2;255;255;255m
+			set return=1
+		)
+	)
+	if /I "!installed.[%%~i]!"=="!packagever!" (
+		echo(%\e%[38;2;255;255;127mPackage "%%~i" version !packagever! is already installed.%\e%[38;2;255;255;255m
+	) else if defined packagever if not defined return (
+		echo(%\e%[38;2;255;255;127mPackage "%%~i" version !installed.[%%~i]! is currently installed.
+		echo(Are you sure you want to install version !packagever! of that package^?%\e%[38;2;255;255;255m
+		choice
+		if "!errorlevel!"=="1" call :update "%%~i" "!packagever!" "!packagetype!" "!link!" || set return=1
+	)
+)
 exit /b
 :--uninstall
-
-exit /b
+<nul set /p "=%\e%[38;2;255;255;255m"
+call :get-installed || exit /b !errorlevel!
+set return=0
+set force=False
+for %%a in (%*) do if "%%~a"=="-F" (
+	set force=True
+) else if "%%~a"=="--no-script" (
+	set force=True
+) else for /f "tokens=1,2 delims=:" %%i in ("%%~a") do if defined installed.[%%~i] (
+	set "packagever=%%~j"
+	if not defined packagever (
+		set "packagever=!installed.[%%~i]!"
+	)
+	if "!installed.[%%~i]!" neq "!packagever!" (
+		echo(%\e%[38;2;255;255;127mPackage "%%~i" version "!installed.[%%~i]!" is installed, but version "%%~j" is not.%\e%[38;2;255;255;255m
+		set /a return+=1
+	) else (
+		if /I "!installed.[%%~i].type!"=="zip" (
+			if "!force!" neq "True" if exist "%~dp0packages\%%~i\uninstall.bat" (
+				pushd "%~dp0packages\%%~i"
+				call uninstall.bat
+				popd
+			)
+			if not errorlevel 1 rd /s /q "%~dp0packages\%%~i\"
+		) else if /I "!installed.[%%~i].type!"=="bat" (
+			del "%~dp0packages\%%~i.bat" || (
+				echo(%\e%[38;2;255;255;127mPackage "%%~i" was not found.%\e%[38;2;255;255;255m
+				set /a return+=1
+			)
+		) else if /I "!installed.[%%~i].type!"=="cmd" (
+			del "%~dp0packages\%%~i.cmd" || (
+				echo(%\e%[38;2;255;255;127mPackage "%%~i" was not found.%\e%[38;2;255;255;255m
+				set /a return+=1
+			)
+		) else (
+			echo(%\e%[38;2;255;255;127mPackage "%%~i" has an invalid package type: "!installed.[%%~i].type!"
+			echo(This might have been caused by downgrading BPM.%\e%[38;2;255;255;255m
+			cmd /c exit /b 1
+			set /a return+=1
+		)
+		if not errorlevel 1 (
+			echo(# BPM Installed Packages>"%~dp0BPM-LocalPackages.txt"
+			for %%a in (!installed!) do if "%%~a" neq "%%~i" (
+				echo(%%~a;!installed.[%%~a].type!;!installed.[%%~a]!>> "%~dp0BPM-LocalPackages.txt"	
+			)
+			echo(%\e%[38;2;255;255;127mPackage "%%~i" was uninstalled successfully.%\e%[38;2;255;255;255m
+		)
+	)
+) else (
+	echo(%\e%[38;2;255;255;127mPackage "%%~i" is not installed.%\e%[38;2;255;255;255m
+	set /a return+=1
+)
+exit /b !return!
 :--version
-
+call :get-installed || exit /b !errorlevel!
+call :get-db || exit /b !errorlevel!
+set list=%*
+if not defined list set list=!installed!
+for %%a in (!list!) do if "!installed.[%%~a]!"=="" exit /b 1
+for %%a in (!list!) do (
+	echo(%%~a:	!installed.[%%~a]!
+)
+if "%~1"=="" echo BPM:	!bpm.ver!
 exit /b
 :--help
 for %%a in (
@@ -354,7 +456,7 @@ for %%a in (
 	"    -L|--list| |Lists installed packages."
 	"    -H|--info|<identifier>|Shows info about the specified package."
 	"    -U|--update|[<identifier>]|Updates a package. If no ID is specified, updates all."
-	"    -D|--uninstall|<identifier>|Uninstalls a package."
+	"    -R|--uninstall|<identifier>|Uninstalls a package."
 ) do (
 	for /f "tokens=1-4 delims=|" %%w in ("%%~a") do (
 		set "option=%%~w"
