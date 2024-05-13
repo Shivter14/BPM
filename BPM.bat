@@ -113,6 +113,11 @@ if /I "!update.packagetype!"=="zip" (
 	)
 	if exist "%~dp0packages\!update.package!.bat" del "%~dp0packages\!update.package!.bat" > nul 2>&1
 	move "%~dp0BPM-temp\package.bat" "%~dp0packages\!update.package!.bat" > nul 2>&1
+	echo(# BPM Installed Packages>"%~dp0BPM-LocalPackages.txt"
+	for %%a in (!installed!) do if "%%~a" neq "!update.package!" (
+		echo(%%~a;!installed.[%%~a].type!;!installed.[%%~a]!>> "%~dp0BPM-LocalPackages.txt"
+	)
+	echo(!update.package!;bat;!update.newversion!>> "%~dp0BPM-LocalPackages.txt"
 ) else if /I "!update.packagetype!"=="cmd" (
 	cmd /c curl -# -o "%~dp0BPM-temp\package.cmd" "!update.link!" || exit /b !errorlevel!
 	if not exist "%~dp0BPM-temp\package.cmd" (
@@ -122,6 +127,11 @@ if /I "!update.packagetype!"=="zip" (
 	)
 	if exist "%~dp0packages\!update.package!.cmd" del "%~dp0packages\!update.package!.cmd" > nul 2>&1
 	move "%~dp0BPM-temp\package.cmd" "%~dp0packages\!update.package!.cmd" > nul 2>&1
+	echo(# BPM Installed Packages>"%~dp0BPM-LocalPackages.txt"
+	for %%a in (!installed!) do if "%%~a" neq "!update.package!" (
+		echo(%%~a;!installed.[%%~a].type!;!installed.[%%~a]!>> "%~dp0BPM-LocalPackages.txt"
+	)
+	echo(!update.package!;cmd;!update.newversion!>> "%~dp0BPM-LocalPackages.txt"
 ) else (
 	echo(%\e%[38;2;255;127;127mFailed to update "!update.package!":
 	echo(    Invalid package type: !update.packagetype!
@@ -279,7 +289,7 @@ set /a "tab_one+=4", "tab_two+=tab_one+3", "tab_len=!mode.W!-tab_two-5", "tab_HW
 echo(%\e%[48;2;63;63;63m%\e%[0K%\e%[38;2;0;0;0m┌!tab_header:~0,%tab_HW%!┐%\e%[!tab_one!G┬%\e%[!tab_two!G┬
 for %%a in (!items!) do (
 	set "info=!item.[%%~a].Info:~0,%tab_len%!"
-	for /f "tokens=1 delims=¤" %%b in ("!info:\n=¤!") do set "info=%%~b"
+	for /f "tokens=1 delims=×" %%b in ("!info:\n=×!") do set "info=%%~b"
 	if "!item.[%%~a].Info:~%tab_len%,1!" neq "" (set append=...%\e%[38;2;0;0;0m│
 	) else set append=%\e%[!mode.W!G%\e%[38;2;0;0;0m│
 	set cache=%\e%[48;2;63;63;63m%\e%[0K%\e%[38;2;0;0;0m│ %\e%[38;2;0;255;255m%%~a%\e%[!tab_one!G%\e%[38;2;0;0;0m│ %\e%[38;2;0;255;0m!item.[%%~a].Name!%\e%[!tab_two!G%\e%[38;2;0;0;0m│ %\e%[38;2;255;255;0m!item.[%%~a].Info:~0,%tab_len%!%\e%[38;2;255;255;255m!append!
