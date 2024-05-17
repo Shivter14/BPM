@@ -1,7 +1,7 @@
 # BPM Database
 :SysShivt-tools
-Name;SysShivt tools Stable downloads
-Info;The most advanced Batch OS with a Desktop Manager, Multiprocessing, and more.
+Name;SysShivt tools Stable downloads (legacy)
+Info;The second most advanced Batch OS with a Desktop Manager, Multiprocessing, and more. 
 Authors;Shivter
 LatestVer;3.2.1
 DefaultDownload;UNAVALIABLE;bat
