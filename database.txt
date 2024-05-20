@@ -16,6 +16,11 @@ Authors;Shivter
 DefaultDownload;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-5-1.zip;zip
 [Downloads]
 2.5.1;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-5-1.zip;zip
+2.5.0;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-5-0.zip;zip
+2.4.4;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-4-4.zip;zip
+2.4.2;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-4-2.zip;zip
+2.4.1;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-4-1.zip;zip
+2.3.1;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-3-1.zip;zip
 [\Downloads]
 :icarus-batch-lib
 Name;Windows Batch Library (Win10 or later)
