@@ -1,8 +1,7 @@
 @echo off
 REM The Batch Package Manager - Created by Shivter and Sintrode
-REM Todo: --update, --uninstall, --version
 setlocal enabledelayedexpansion
-set BPM.ver=Stable 1.0.0
+set BPM.ver=Stable 1.1.0
 for /f %%a in ('echo prompt $E^| cmd') do set "\e=%%a"
 
 if not exist "%~dp0\packages" md "%~dp0\packages"
