@@ -22,7 +22,7 @@ Name;Windows Batch Library (Win10 or later)
 Info;Expand the list of commands you use in Batch with Library.bat!\nThe Window Batch Library is a collection of pre-written macros, functions, and\nconstants that can be used to simplify and speed up the process of creating\ncommand-line interfaces (CLIs) and other types of text-based user interfaces\n(TUIs). This library includes a wide range of functions and macros,\nincluding standard console manipulations, mathematical calculations,\ncolor and text formatting, and mouse input.
 Authors;Icarus
 LatestVer;0.0.3
-DefaultDownload;https://github.com/IcarusLivesHF/Batch-Libraries/archive/refs/heads/main.zip;zip
+DefaultDownload;https://codeload.github.com/IcarusLivesHF/Batch-Libraries/zip/refs/heads/main;zip
 [Downloads]
-0.0.3;https://github.com/IcarusLivesHF/Batch-Libraries/archive/refs/heads/main.zip;zip
+0.0.3;https://codeload.github.com/IcarusLivesHF/Batch-Libraries/zip/refs/heads/main;zip
 [\Downloads]
