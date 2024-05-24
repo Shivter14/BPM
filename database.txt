@@ -1,4 +1,13 @@
 # BPM Database
+:Shivtanium
+Name;Shivtanium Engine
+Info;The most advanced Batch OS Kernel\nFeatures: Interpreter, Multi-processing, DWM (Desktop Window Manager), themes, modding support\n<and more>
+Authors;Shivter
+LatestVer;alpha-0.3.1/24w21a
+DefaultDownload;https://github.com/Shivter14/Shivtanium/raw/main/latest.zip;zip
+[Downloads]
+alpha-0.3.1/24w21a;https://github.com/Shivter14/Shivtanium/raw/main/latest.zip;zip
+[\Downloads]
 :SysShivt-tools
 Name;SysShivt tools Stable downloads (legacy)
 Info;The second most advanced Batch OS with a Desktop Manager, Multiprocessing, and more. 
