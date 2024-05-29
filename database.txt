@@ -8,15 +8,6 @@ DefaultDownload;https://raw.githubusercontent.com/Shivter14/Shivtanium/main/late
 [Downloads]
 alpha-0.3.1/24w21a;https://raw.githubusercontent.com/Shivter14/Shivtanium/main/latest.zip;zip
 [\Downloads]
-:SysShivt-tools
-Name;SysShivt tools Stable downloads (legacy)
-Info;The second most advanced Batch OS with a Desktop Manager, Multiprocessing, and more. 
-Authors;Shivter
-LatestVer;3.2.1
-DefaultDownload;UNAVALIABLE;bat
-[Downloads]
-3.2.1;UNAVALIABLE;zip
-[\Downloads]
 :SSVM
 Name;SSVM
 Info;SysShivt Virtual Machine (basically just a launcher)
