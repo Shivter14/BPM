@@ -8,6 +8,15 @@ DefaultDownload;https://raw.githubusercontent.com/Shivter14/Shivtanium/main/late
 [Downloads]
 alpha-0.3.1/24w21a;https://raw.githubusercontent.com/Shivter14/Shivtanium/main/latest.zip;zip
 [\Downloads]
+:Shivtanium-font-pack
+Name;Shivtanium Font Pack
+Info;A font renderer + font in Batch.\nContains:\n  Shivtanium Phenomenal\n  Shivtanium Simple\n  + Demo
+Authors;Shivter, Icarus
+LatestVer;Rev-1
+DefaultDownload;https://raw.githubusercontent.com/Shivter14/Shivtanium/main/Shivtanium-Font-Pack.bat;bat
+[Downloads]
+Rev-1;https://raw.githubusercontent.com/Shivter14/Shivtanium/main/Shivtanium-Font-Pack.bat;bat
+[\Downloads]
 :SSVM
 Name;SSVM
 Info;SysShivt Virtual Machine (basically just a launcher)
