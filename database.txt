@@ -31,3 +31,12 @@ DefaultDownload;https://codeload.github.com/IcarusLivesHF/Batch-Libraries/zip/re
 [Downloads]
 0.0.3;https://codeload.github.com/IcarusLivesHF/Batch-Libraries/zip/refs/heads/main;zip
 [\Downloads]
+:turtle-graphics
+Name;Turtle Graphics
+Info;Turtle Graphics in Batch
+LatestVer;aff5e3f
+Authors;Icarus
+DefaultDownload;https://raw.githubusercontent.com/IcarusLivesHF/Turtle-Graphics/main/Turtle_Graphics.bat;bat
+[Downloads]
+aff5e3f;https://raw.githubusercontent.com/IcarusLivesHF/Turtle-Graphics/main/Turtle_Graphics.bat;bat
+[\Downloads]
