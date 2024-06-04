@@ -49,3 +49,12 @@ DefaultDownload;https://raw.githubusercontent.com/IcarusLivesHF/Turtle-Graphics/
 [Downloads]
 aff5e3f;https://raw.githubusercontent.com/IcarusLivesHF/Turtle-Graphics/main/Turtle_Graphics.bat;bat
 [\Downloads]
+:RE
+Name;Resource Embedder
+Info;RE - A batch resource embedder.
+Authors;xxfoofyxx
+LatestVer;10aa0d1
+DefaultDownload;https://raw.githubusercontent.com/xxfoofyxx/re/master/re.bat;bat
+[Downloads]
+10aa0d1;https://raw.githubusercontent.com/xxfoofyxx/re/master/re.bat;bat
+[\Downloads]
