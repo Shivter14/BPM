@@ -8,7 +8,7 @@ set "path=%~dp0packages;!path:%~dp0packages;=!"
 )
 
 setlocal enabledelayedexpansion
-set BPM.ver=1.1.1
+set BPM.ver=1.1.2
 for /f %%a in ('echo prompt $E^| cmd') do set "\e=%%a"
 if not exist "%~dp0\packages" md "%~dp0\packages"
 
@@ -94,7 +94,7 @@ if "!installed.[%update.package%].type!" neq "!packagetype!" (
 )
 if /I "!update.packagetype!"=="zip" (
 	setlocal
-	cd "%~dp0BPM-temp"
+	pushd "%~dp0BPM-temp"
 	cmd /c curl -# -o package.zip "!update.link!" || (
 		echo(%\e%[38;2;255;127;127mFailed to update "!update.package!" to version "!update.newversion!":
 		echo(    Download failed.%\e%[38;2;255;255;255m
@@ -110,17 +110,18 @@ if /I "!update.packagetype!"=="zip" (
 		echo(    Failed to extract package.zip.%\e%[38;2;255;255;255m
 		exit /b 1
 	)
-	del package.zip
+	del package.zip > nul
 	if exist "update.bat" (
 		call update.bat "!update.package!" "%~dp0packages\!update.package!" || exit /b !errorlevel!
 	) else (
-		xcopy "%~dp0BPM-temp" "%~dp0packages\!update.package!" /Y /Q > nul || exit /b !errorlevel!
+		xcopy "!cd!" "%~dp0packages\!update.package!" /Q /S /Y || exit /b !errorlevel!
 	)
 	echo(# BPM Installed Packages>"%~dp0BPM-LocalPackages.txt"
 	for %%a in (!installed!) do if "%%~a" neq "!update.package!" (
 		>>"%~dp0BPM-LocalPackages.txt" echo(%%~a;!installed.[%%~a].type!;!installed.[%%~a]!
 	)
 	>>"%~dp0BPM-LocalPackages.txt" echo(!update.package!;zip;!update.newversion!
+	popd
 	endlocal
 ) else if /I "!update.packagetype!"=="bat" (
 	cmd /c curl -# -o "%~dp0BPM-temp\package.bat" "!update.link!" || exit /b !errorlevel!
@@ -343,7 +344,7 @@ chcp 65001>nul 2>&1
 echo(%\e%[38;2;0;255;255mInstalled Packages:%\e%[38;2;255;255;0m
 set tab=7
 for %%a in (!installed!) do (
-	set "string=x%%~a"
+	set "string=x!installed.[%%~a]!"
 	set "stringlen=0"
 	for /l %%b in (9,-1,0) do (
 		set /a "stringlen|=1<<%%b"
@@ -365,19 +366,28 @@ chcp 65001 > nul
 call :get-db || exit /b !errorlevel!
 call :get-installed || exit /b !errorlevel!
 if "%~1"=="" exit /b 1
-if defined item.[%~1] (
+if "!item.[%~1]!" neq "" (
 	echo(%\e%[38;2;0;255;255m'!item.[%~1]!' - %\e%[38;2;127;255;255m!item.[%~1].Name!
 	for %%a in ("!item.[%~1].info:\n=" "!") do echo(%\e%[38;2;255;255;255m%%~a
-	echo(
-	echo(%\e%[38;2;0;255;255mLatest version: %\e%[38;2;127;255;255m!item.[%~1].LatestVer!
-	echo(%\e%[38;2;0;255;255mAvaliable versions:
+	echo=
+	if "!installed.[%~1]!" neq "!item.[%~1].latestVer!" (
+		echo=%\e%[38;2;0;255;255mInstalled version: %\e%[38;2;127;255;255m!installed.[%~1]!
+		echo=%\e%[38;2;255;255;127m  Updated version: %\e%[38;2;255;127;255m!item.[%~1].LatestVer!
+		echo=%\e%[38;2;0;255;255m  Use '%\e%[38;2;127;255;255mbpm --update %1%\e%[38;2;0;255;255m' to update.
+		echo=
+	) else echo=%\e%[38;2;0;255;255mLatest version: %\e%[38;2;127;255;255m!item.[%~1].LatestVer!
+	
+	echo=%\e%[38;2;0;255;255mAvaliable versions:
 	for %%a in (!item.[%~1].downloads!) do for /f "tokens=1,2 delims=;" %%b in ("!item.[%~1].download.[%%~a]!") do (
 		set "temp.dl=%%~b"
+		set "temp.name=   %\e%[38;2;127;255;255m%%~a"
 		if "%~2" neq "--full-link" (
 			set "temp.dl=!temp.dl:https://=!"
 			set "temp.dl=!temp.dl:raw.githubusercontent.com/=₪ %\e%[38;2;127;255;127m!"
+			set "temp.dl=!temp.dl:codeload.github.com/=► %\e%[38;2;192;255;127m!"
 		)
-		echo(%\e%[38;2;127;127;127m    %\e%[38;2;127;255;255m%%~a	%\e%[38;2;127;127;255m!temp.dl!
+		if "!installed.[%~1]!" == "%%~a" set "temp.name=%\e%[38;2;127;127;127m-> !temp.name:~3!"
+		echo(%\e%[38;2;127;127;127m !temp.name!	%\e%[38;2;127;127;255m!temp.dl!
 	)
 	echo(%\e%[38;2;255;255;255m
 ) else if defined installed.[%~1] (
@@ -390,6 +400,10 @@ if defined item.[%~1] (
 )
 exit /b 0
 :--update
+where choice > nul 2>&1 || (
+	echo Fatal error: 'choice' command was not found.
+	exit /b 1
+)
 call :get-db || exit /b !errorlevel!
 call :get-installed || exit /b !errorlevel!
 if not exist "%~dp0BPM-temp" (
@@ -404,7 +418,11 @@ if not exist "%~dp0BPM-temp" (
 	if not exist "%~dp0BPM-temp" md "%~dp0BPM-temp"
 )
 set return=0
-for %%a in (%*) do for /f "tokens=1* delims=:" %%i in ("%%~a") do if defined installed.[%%~i] (
+set update_packages=%*
+if not defined update_packages (
+	for %%a in (!installed!) do if "!installed.[%%~a]!" neq "!item.[%%~a].latestVer!" set update_packages=!update_packages! %%a
+)
+for %%a in (!update_packages!) do for /f "tokens=1* delims=:" %%i in ("%%~a") do if "!installed.[%%~i]!" neq "" (
 	set packagever=
 	set return=
 	if "%%~j"=="" (
@@ -434,6 +452,8 @@ for %%a in (%*) do for /f "tokens=1* delims=:" %%i in ("%%~a") do if defined ins
 		choice
 		if "!errorlevel!"=="1" call :update "%%~i" "!packagever!" "!packagetype!" "!link!" || set return=1
 	)
+) else (
+	echo(%\e%[38;2;255;127;127mPackage "%%~i" is not installed.%\e%[38;2;255;255;255m
 )
 if exist "%~dp0BPM-temp" rd /s /q "%~dp0BPM-temp"
 exit /b
@@ -514,13 +534,14 @@ for %%a in (
 	"Usage:|%\e%[38;2;0;255;255mBPM.bat|%\e%[38;2;0;255;0m<options> %\e%[38;2;255;255;0m<parameters>"
 	"== Options =="
 	"    -$|--help| |Displays the help prompt."
-	"    -V|--version|[<identifier>]|Displays the installed version of a specified package."
+	"    -V|--version|[<identifier>]|Displays the installed version for specified packages."
 	"      |         |              |If no ID is specified, displays all (Including BPM)."
 	"    -I|--install|<identifier>|Install a package by its identifier."
 	"    -S|--search|<keywords>|Searches for packages by keywords."
 	"    -L|--list| |Lists installed packages."
 	"    -H|--info|<identifier> [--full-link]|Shows info about the specified package."
-	"    -U|--update|[<identifier>]|Updates a package. If no ID is specified, updates all."
+	"    -U|--update|[<identifier>]|Updates specified packages."
+	"      |        |              |If no ID is specified, updates all installed."
 	"    -R|--uninstall|[-F] <identifier>|Uninstalls a package."
 ) do (
 	for /f "tokens=1-4 delims=|" %%w in ("%%~a") do (
