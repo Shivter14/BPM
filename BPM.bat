@@ -1,9 +1,15 @@
 @echo off
 REM The Batch Package Manager - Created by Shivter and Sintrode
 setlocal enabledelayedexpansion
-set BPM.ver=Stable 1.1.0
-for /f %%a in ('echo prompt $E^| cmd') do set "\e=%%a"
+set "path=%~dp0packages;!path:%~dp0packages;=!"
+(
+	endlocal
+	set "path=%path%"
+)
 
+setlocal enabledelayedexpansion
+set BPM.ver=1.1.1
+for /f %%a in ('echo prompt $E^| cmd') do set "\e=%%a"
 if not exist "%~dp0\packages" md "%~dp0\packages"
 
 if "%~1"=="" goto --help
@@ -13,7 +19,7 @@ for %%a in (
 ) do for /f "tokens=1,2" %%b in (%%a) do (
 	set "option=%%~b"
 	if /I "%~1"=="!option:$=?!" (
-		call :%%~c %2 %3 %4 %5 %6 %7 %8 %9 && REM This looks stupid
+		call :%%~c %2 %3 %4 %5 %6 %7 %8 %9 && REM This looks stupid but there is no other way
 		exit /b !errorlevel!
 	) else if /I "%~1"=="%%~c" (
 		call :%*
@@ -354,6 +360,7 @@ echo(%\e%[38;2;0;255;255mIf you want to get more information about a specified p
 echo(use `%\e%[38;2;0;255;0mBPM --info %\e%[38;2;255;255;0m^<Package name^>%\e%[38;2;0;255;255m`%\e%[38;2;255;255;255m
 exit /b
 :--info
+chcp 65001 > nul
 <nul set /p "=%\e%[38;2;255;255;255m"
 call :get-db || exit /b !errorlevel!
 call :get-installed || exit /b !errorlevel!
@@ -363,8 +370,15 @@ if defined item.[%~1] (
 	for %%a in ("!item.[%~1].info:\n=" "!") do echo(%\e%[38;2;255;255;255m%%~a
 	echo(
 	echo(%\e%[38;2;0;255;255mLatest version: %\e%[38;2;127;255;255m!item.[%~1].LatestVer!
-	echo(%\e%[38;2;0;255;255mAvaliable versions:%\e%[38;2;127;255;255m
-	for %%a in (!item.[%~1].downloads!) do echo(    %%~a
+	echo(%\e%[38;2;0;255;255mAvaliable versions:
+	for %%a in (!item.[%~1].downloads!) do for /f "tokens=1,2 delims=;" %%b in ("!item.[%~1].download.[%%~a]!") do (
+		set "temp.dl=%%~b"
+		if "%~2" neq "--full-link" (
+			set "temp.dl=!temp.dl:https://=!"
+			set "temp.dl=!temp.dl:raw.githubusercontent.com/=₪ %\e%[38;2;127;255;127m!"
+		)
+		echo(%\e%[38;2;127;127;127m    %\e%[38;2;127;255;255m%%~a	%\e%[38;2;127;127;255m!temp.dl!
+	)
 	echo(%\e%[38;2;255;255;255m
 ) else if defined installed.[%~1] (
 	echo(%\e%[38;2;255;255;127mPackage "%~1" is installed, but it's not in the database.
@@ -479,15 +493,19 @@ for %%a in (%*) do if "%%~a"=="-F" (
 exit /b !return!
 :--version
 call :get-installed || exit /b !errorlevel!
-call :get-db || exit /b !errorlevel!
 set list=%*
+set return=0
 if not defined list set list=!installed!
-for %%a in (!list!) do if "!installed.[%%~a]!"=="" exit /b 1
 for %%a in (!list!) do (
-	echo(%%~a:	!installed.[%%~a]!
+	if "!installed.[%%~a]!"=="" (
+		echo(
+		set /a return+=1
+	) else (
+		echo(%%~a:	!installed.[%%~a]!
+	)
 )
 if "%~1"=="" echo BPM:	!bpm.ver!
-exit /b
+exit /b !return!
 :--help
 for %%a in (
 	"BMP.bat|%\e%[38;2;0;255;0m  The Universal Batch Package Manager."
@@ -501,13 +519,13 @@ for %%a in (
 	"    -I|--install|<identifier>|Install a package by its identifier."
 	"    -S|--search|<keywords>|Searches for packages by keywords."
 	"    -L|--list| |Lists installed packages."
-	"    -H|--info|<identifier>|Shows info about the specified package."
+	"    -H|--info|<identifier> [--full-link]|Shows info about the specified package."
 	"    -U|--update|[<identifier>]|Updates a package. If no ID is specified, updates all."
 	"    -R|--uninstall|[-F] <identifier>|Uninstalls a package."
 ) do (
 	for /f "tokens=1-4 delims=|" %%w in ("%%~a") do (
 		set "option=%%~w"
-		echo(%\e%[38;2;0;255;255m!option:$=?!%\e%[9G%\e%[38;2;0;255;0m%%~x%\e%[C%\e%[38;2;255;255;0m%%~y%\e%[40G%\e%[38;2;255;255;255m%%~z
+		echo(%\e%[38;2;0;255;255m!option:$=?!%\e%[9G%\e%[38;2;0;255;0m%%~x%\e%[C%\e%[38;2;255;255;0m%%~y%\e%[44G%\e%[38;2;255;255;255m%%~z
 	)
 )
 exit /b
