@@ -51,7 +51,7 @@ aff5e3f;https://raw.githubusercontent.com/IcarusLivesHF/Turtle-Graphics/main/Tur
 [\Downloads]
 :RE
 Name;Resource Embedder
-Info;RE - A batch resource embedder.
+Info;A batch resource embedder.
 Authors;xxfoofyxx
 LatestVer;10aa0d1
 DefaultDownload;https://raw.githubusercontent.com/xxfoofyxx/re/master/re.bat;bat
