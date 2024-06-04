@@ -3,10 +3,10 @@
 Name;Shivtanium OS Kernel
 Info;The most advanced Batch OS Kernel\nFeatures: Interpreter, Multi-processing, DWM (Desktop Window Manager), themes, modding support\n<and more>
 Authors;Shivter
-LatestVer;alpha-0.3.1/24w21a
+LatestVer;beta-1.0.0_Pre-1/24w22a
 DefaultDownload;https://raw.githubusercontent.com/Shivter14/Shivtanium/main/latest.zip;zip
 [Downloads]
-alpha-0.3.1/24w21a;https://raw.githubusercontent.com/Shivter14/Shivtanium/main/latest.zip;zip
+beta-1.0.0_Pre-1/24w22a;https://raw.githubusercontent.com/Shivter14/Shivtanium/main/latest.zip;zip
 [\Downloads]
 :Shivtanium-font-pack
 Name;Shivtanium Font Pack
