@@ -8,7 +8,7 @@ set "path=%~dp0packages;!path:%~dp0packages;=!"
 )
 
 setlocal enabledelayedexpansion
-set BPM.ver=1.1.2
+set BPM.ver=1.1.3
 for /f %%a in ('echo prompt $E^| cmd') do set "\e=%%a"
 if not exist "%~dp0\packages" md "%~dp0\packages"
 
@@ -32,7 +32,7 @@ for /f "tokens=1 delims==" %%a in ('set item.[ 2^>nul') do set "%%~a="
 if exist "%~dp0database.txt" del "%~dp0database.txt"
 <nul set /p "=%\e%[38;2;255;255;255m"
 cmd /c curl -# -o "%~dp0database.txt" "https://raw.githubusercontent.com/Shivter14/BPM/main/database.txt"
-<nul set /p "=%\e%[A%\e%[0m%\e%[J"
+<nul set /p "=%\e%[A%\e%[J"
 if not exist "%~dp0database.txt" goto db-err
 set line=0
 set mode=#
@@ -95,7 +95,9 @@ if "!installed.[%update.package%].type!" neq "!packagetype!" (
 if /I "!update.packagetype!"=="zip" (
 	setlocal
 	pushd "%~dp0BPM-temp"
-	cmd /c curl -# -o package.zip "!update.link!" || (
+	cmd /c curl -# -o package.zip "!update.link!"
+	if not exist package.zip cmd /c exit 1
+	if errorlevel 1 (
 		echo(%\e%[38;2;255;127;127mFailed to update "!update.package!" to version "!update.newversion!":
 		echo(    Download failed.%\e%[38;2;255;255;255m
 		exit /b 1
@@ -112,7 +114,8 @@ if /I "!update.packagetype!"=="zip" (
 	)
 	del package.zip > nul
 	if exist "update.bat" (
-		call update.bat "!update.package!" "%~dp0packages\!update.package!" || exit /b !errorlevel!
+		cmd /c update.bat "!update.package!" "%~dp0packages\!update.package!"
+		if errorlevel 1 exit /b !errorlevel!
 	) else (
 		xcopy "!cd!" "%~dp0packages\!update.package!" /Q /S /Y || exit /b !errorlevel!
 	)
@@ -176,7 +179,7 @@ if not exist "%~dp0BPM-temp" (
 	del /Q "%~dp0BPM-temp"
 	if not exist "%~dp0BPM-temp" md "%~dp0BPM-temp" && REM Just in case if somebody decided to make a file with the name "BPM-temp"
 )
-set return=0
+set return=
 for %%a in (%*) do for /f "tokens=1* delims=:" %%i in ("%%~a") do if defined installed.[%%~i] (
 	set packagever=
 	set return=
@@ -194,16 +197,16 @@ for %%a in (%*) do for /f "tokens=1* delims=:" %%i in ("%%~a") do if defined ins
 				set "packagetype=%%~t"
 			)
 		) else (
-			echo(%\e%[38;2;255;127;127mThe package version "%%~j" for "%%~i" was not found.
-			echo(%\e%[38;2;255;255;127mIf you're looking for a specific version of a package, try using '%\e%[38;2;0;255;255mBPM --info ^<package name^>%\e%[38;2;255;255;127m'.%\e%[38;2;255;255;255m
+			echo(%\e%[38;2;255;127;127mPackage %\e%[38;2;127;255;255m%%i %\e%[38;2;255;127;127mversion %\e%[38;2;127;255;255m%%j %\e%[38;2;255;127;127mwas not found.
+			if not defined return echo(%\e%[38;2;255;255;127mIf you're looking for a specific version of a package, try using '%\e%[38;2;0;255;255mBPM --info ^<package name^>%\e%[38;2;255;255;127m'.%\e%[38;2;255;255;255m
 			set return=1
 		)
 	)
 	if /I "!installed.[%%~i]!"=="!packagever!" (
-		echo(%\e%[38;2;255;255;127mPackage "%%~i" version !packagever! is already installed.%\e%[38;2;255;255;255m
+		echo(%\e%[38;2;255;127;127mPackage%\e%[38;2;127;255;255m %%i %\e%[38;2;255;127;127mversion %\e%[38;2;127;255;255m!packagever!%\e%[38;2;255;127;127m is already installed.%\e%[38;2;255;255;255m
 	) else if defined packagever if not defined return (
-		echo(%\e%[38;2;255;255;127mPackage "%%~i" version !installed.[%%~i]! is currently installed.
-		echo(Are you sure you want to install version !packagever! of that package^?%\e%[38;2;255;255;255m
+		echo(%\e%[38;2;255;255;127mPackage%\e%[38;2;127;255;255m %%i %\e%[38;2;255;255;127mversion %\e%[38;2;127;255;255m!installed.[%%~i]!%\e%[38;2;255;255;127m is currently installed.
+		echo(Are you sure you want to install version%\e%[38;2;127;255;255m !packagever!%\e%[38;2;255;255;127m of that package^?%\e%[38;2;255;255;255m
 		choice
 		if "!errorlevel!"=="1" call :update "%%~i" "!packagever!" "!packagetype!" "!link!" || set return=1
 	)
@@ -219,7 +222,8 @@ for %%a in (%*) do for /f "tokens=1* delims=:" %%i in ("%%~a") do if defined ins
 			set "link=!item.[%%~i].download.[%%~j]!"
 			set "packagever=%%~j"
 		) else (
-			echo(%\e%[38;2;255;127;127mThe package version "%%~j" for "%%~i" was not found.%\e%[E%\e%[38;2;255;255;127mIf you're looking for a specific version of a package, try using '%\e%[38;2;0;255;255mBPM --info ^<package name^>%\e%[38;2;255;255;127m'.%\e%[38;2;255;255;255m
+			echo(%\e%[38;2;255;127;127mPackage %\e%[38;2;127;255;255m%%i %\e%[38;2;255;127;127mversion %\e%[38;2;127;255;255m%%j %\e%[38;2;255;127;127mwas not found.
+			if not defined return echo(%\e%[38;2;255;255;127mIf you're looking for a specific version of a package, try using '%\e%[38;2;0;255;255mBPM --info ^<package name^>%\e%[38;2;255;255;127m'.%\e%[38;2;255;255;255m
 			set return=1
 		)
 	)
@@ -250,7 +254,7 @@ for %%a in (%*) do for /f "tokens=1* delims=:" %%i in ("%%~a") do if defined ins
 			) else (
 				>>"%~dp0BPM-LocalPackages.txt" echo(!packageid!;zip;!packagever!
 				cd "!returndir!"
-				echo(%\e%[38;2;255;255;127mPackage "!packageid!" was installed successfully.%\e%[38;2;255;255;255m
+				echo(%\e%[3F%\e%[0J%\e%[38;2;255;255;127mPackage%\e%[38;2;127;255;255m !packageid! %\e%[38;2;255;255;127mwas installed successfully.%\e%[38;2;255;255;255m
 			)
 		) else if /I "!packagetype!"=="bat" (
 			cmd /c curl -o "%~dp0packages\!packageid!.bat" "!link!"
@@ -260,8 +264,7 @@ for %%a in (%*) do for /f "tokens=1* delims=:" %%i in ("%%~a") do if defined ins
 				echo(Errorlevel: !errorlevel!%\e%[38;2;255;255;255m
 			) else (
 				>>"%~dp0BPM-LocalPackages.txt" echo(!packageid!;bat;!packagever!
-				cd "!returndir!"
-				echo(%\e%[38;2;255;255;127mPackage "!packageid!" was installed successfully.%\e%[38;2;255;255;255m
+				echo(%\e%[3F%\e%[0J%\e%[38;2;255;255;127mPackage%\e%[38;2;127;255;255m !packageid! %\e%[38;2;255;255;127mwas installed successfully.%\e%[38;2;255;255;255m
 			)
 		) else if /I "!packagetype!"=="cmd" (
 			cmd /c curl -o "%~dp0packages\!packageid!.cmd" "!link!"
@@ -271,15 +274,16 @@ for %%a in (%*) do for /f "tokens=1* delims=:" %%i in ("%%~a") do if defined ins
 				echo(Errorlevel: !errorlevel!%\e%[38;2;255;255;255m
 			) else (
 				>>"%~dp0BPM-LocalPackages.txt" echo(!packageid!;cmd;!packagever!
-				cd "!returndir!"
-				echo(%\e%[38;2;255;255;127mPackage "!packageid!" was installed successfully.%\e%[38;2;255;255;255m
+				echo(%\e%[3F%\e%[0J%\e%[38;2;255;255;127mPackage%\e%[38;2;127;255;255m !packageid! %\e%[38;2;255;255;127mwas installed successfully.%\e%[38;2;255;255;255m
 			)
 		) else REM   \/
 	) else REM Todo: Add handeling for invalid package types
 ) else (
-	echo(%\e%[38;2;255;127;127mThe package "%%~a" was not found.
-	echo(%\e%[38;2;255;255;127mMake sure you didn't use quotes. The IDs are also case sensitive.
-	echo(If you're looking for something, try using '%\e%[38;2;0;255;255mBPM --search%\e%[38;2;255;255;127m'.%\e%[38;2;255;255;255m
+	echo(%\e%[38;2;255;127;127mPackage%\e%[38;2;127;255;255m %%i%\e%[38;2;255;127;127m was not found.%\e%[38;2;255;255;255m
+	if not defined return (
+		echo(%\e%[38;2;255;255;127mMake sure you didn't use quotes. The IDs are also case sensitive.
+		echo(If you're looking for something, try using '%\e%[38;2;0;255;255mBPM --search%\e%[38;2;255;255;127m'.%\e%[38;2;255;255;255m
+	)
 	set return=1
 )
 :x
@@ -385,17 +389,18 @@ if "!item.[%~1]!" neq "" (
 			set "temp.dl=!temp.dl:https://=!"
 			set "temp.dl=!temp.dl:raw.githubusercontent.com/=₪ %\e%[38;2;127;255;127m!"
 			set "temp.dl=!temp.dl:codeload.github.com/=► %\e%[38;2;192;255;127m!"
+			if "!temp.dl!" neq "!temp.dl:objects.githubusercontent.com/=!" set "temp.dl=<GitHub object>"
 		)
 		if "!installed.[%~1]!" == "%%~a" set "temp.name=%\e%[38;2;127;127;127m-> !temp.name:~3!"
 		echo(%\e%[38;2;127;127;127m !temp.name!	%\e%[38;2;127;127;255m!temp.dl!
 	)
 	echo(%\e%[38;2;255;255;255m
-) else if defined installed.[%~1] (
+) else if "!installed.[%~1]!" neq "" (
 	echo(%\e%[38;2;255;255;127mPackage "%~1" is installed, but it's not in the database.
 	echo(%\e%[38;2;255;127;127mThis means It was removed by the BPM administrators.
 	echo(%\e%[38;2;255;255;127mYou should uninstall this package using `%\e%[38;2;0;255;0mBPM --uninstall %1%\e%[38;2;255;255;127m`%\e%[38;2;255;255;255m
 ) else (
-	echo(%\e%[38;2;255;255;127mPackage "%~1" was not found.%\e%[38;2;255;255;255m
+	echo(%\e%[38;2;255;127;127mPackage%\e%[38;2;127;255;255m %1 %\e%[38;2;255;127;127mwas not found.%\e%[38;2;255;255;255m
 	exit /b 1
 )
 exit /b 0
