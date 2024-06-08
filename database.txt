@@ -58,7 +58,7 @@ DefaultDownload;https://raw.githubusercontent.com/xxfoofyxx/re/master/re.bat;bat
 [Downloads]
 10aa0d1;https://raw.githubusercontent.com/xxfoofyxx/re/master/re.bat;bat
 [\Downloads]
-:AuchenDevs/WindowsFilesRecover
+:WindowsFilesRecover
 Name;Windows Files Recover
 Info;Windows Files Recover utility
 LatestVer;1.2
