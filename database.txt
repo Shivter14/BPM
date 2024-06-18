@@ -5,9 +5,9 @@ Info;The most advanced Batch OS Kernel\nFeatures: Interpreter, Multi-processing,
 Authors;Shivter
 LatestVer;beta-1.0.0
 NewsLink;None
-DefaultDownload;https://raw.githubusercontent.com/Shivter14/Shivtanium/main/latest.zip;zip
+DefaultDownload;https://codeload.github.com/Shivter14/Shivtanium/zip/refs/tags/beta-1.0.0;zip
 [Downloads]
-beta-1.0.0_Pre-1/24w22a;https://raw.githubusercontent.com/Shivter14/Shivtanium/main/latest.zip;zip
+beta-1.0.0/24w22a;https://codeload.github.com/Shivter14/Shivtanium/zip/refs/tags/beta-1.0.0;zip
 [\Downloads]
 :Shivtanium-font-pack
 Name;Shivtanium Font Pack
