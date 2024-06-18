@@ -1,7 +1,7 @@
 # BPM Database
 :Shivtanium
 Name;Shivtanium OS Kernel
-Info;The most advanced Batch OS Kernel\nFeatures: Interpreter, Multi-processing, DWM (Desktop Window Manager), themes, modding support\n<and more>
+Info;The most advanced Batch OS Kernel\nFeatures: Interpreter, Multi-processing, DWM (Desktop Window Manager), themes, modding support...\n<and more>
 Authors;Shivter
 LatestVer;beta-1.0.0
 NewsLink;None
