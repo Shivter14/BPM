@@ -4,6 +4,7 @@ Name;Shivtanium OS Kernel
 Info;The most advanced Batch OS Kernel\nFeatures: Interpreter, Multi-processing, DWM (Desktop Window Manager), themes, modding support\n<and more>
 Authors;Shivter
 LatestVer;beta-1.0.0
+NewsLink;None
 DefaultDownload;https://raw.githubusercontent.com/Shivter14/Shivtanium/main/latest.zip;zip
 [Downloads]
 beta-1.0.0_Pre-1/24w22a;https://raw.githubusercontent.com/Shivter14/Shivtanium/main/latest.zip;zip
@@ -13,6 +14,7 @@ Name;Shivtanium Font Pack
 Info;A font renderer + font in Batch.\nContains:\n  Shivtanium Phenomenal\n  Shivtanium Simple\n  + Demo
 Authors;Shivter, Icarus
 LatestVer;Rev-1
+NewsLink;None
 DefaultDownload;https://raw.githubusercontent.com/Shivter14/Shivtanium/main/Shivtanium-Font-Pack.bat;bat
 [Downloads]
 Rev-1;https://raw.githubusercontent.com/Shivter14/Shivtanium/main/Shivtanium-Font-Pack.bat;bat
@@ -21,6 +23,7 @@ Rev-1;https://raw.githubusercontent.com/Shivter14/Shivtanium/main/Shivtanium-Fon
 Name;SSVM
 Info;SysShivt Virtual Machine (basically just a launcher)
 LatestVer;2.5.1
+NewsLink;None
 Authors;Shivter
 DefaultDownload;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-5-1.zip;zip
 [Downloads]
@@ -36,6 +39,7 @@ Name;Windows Batch Library split into sublibraries
 Info;The Window Batch Library is a collection of pre-written macros, functions, and\nconstants that can be used to simplify and speed up the process of creating\ncommand-line interfaces (CLIs) and other types of text-based user interfaces\n(TUIs). This library includes a wide range of functions and macros,\nincluding standard console manipulations, mathematical calculations,\ncolor and text formatting, and mouse input.\n(Windows 10 or later)
 Authors;Icarus
 LatestVer;0.0.3
+NewsLink;None
 DefaultDownload;https://codeload.github.com/IcarusLivesHF/Batch-Libraries/zip/refs/heads/main;zip
 [Downloads]
 0.0.3;https://codeload.github.com/IcarusLivesHF/Batch-Libraries/zip/refs/heads/main;zip
@@ -45,6 +49,7 @@ Name;Turtle Graphics
 Info;Turtle Graphics in Batch
 LatestVer;aff5e3f
 Authors;Icarus
+NewsLink;None
 DefaultDownload;https://raw.githubusercontent.com/IcarusLivesHF/Turtle-Graphics/main/Turtle_Graphics.bat;bat
 [Downloads]
 aff5e3f;https://raw.githubusercontent.com/IcarusLivesHF/Turtle-Graphics/main/Turtle_Graphics.bat;bat
@@ -54,6 +59,7 @@ Name;Resource Embedder
 Info;A batch resource embedder.
 Authors;xxfoofyxx
 LatestVer;10aa0d1
+NewsLink;None
 DefaultDownload;https://raw.githubusercontent.com/xxfoofyxx/re/master/re.bat;bat
 [Downloads]
 10aa0d1;https://raw.githubusercontent.com/xxfoofyxx/re/master/re.bat;bat
@@ -63,6 +69,7 @@ Name;Windows Files Recover
 Info;Windows Files Recover utility
 LatestVer;1.2
 Authors;AuchenDevs
+NewsLink;None
 DefaultDownload;https://raw.githubusercontent.com/AuchenDevs/WindowsFilesRecover/main/WindowsFilesRecover%20v1.2.bat;bat
 [Downloads]
 1.2;https://raw.githubusercontent.com/AuchenDevs/WindowsFilesRecover/main/WindowsFilesRecover%20v1.2.bat;bat
