@@ -5,9 +5,9 @@ Info;The most advanced Batch OS Kernel\nFeatures: Interpreter, Multi-processing,
 Authors;Shivter
 LatestVer;beta-1.0.0
 NewsLink;None
-DefaultDownload;https://github.com/Shivter14/Shivtanium/releases/download/beta-1.0.0/package.zip;zip
+DefaultDownload;https://github.com/Shivter14/Shivtanium/releases/download/beta-1.0.0/package.zip;zip;package.zip
 [Downloads]
-beta-1.0.0;https://github.com/Shivter14/Shivtanium/releases/download/beta-1.0.0/package.zip;zip
+beta-1.0.0;https://github.com/Shivter14/Shivtanium/releases/download/beta-1.0.0/package.zip;zip;package.zip
 [\Downloads]
 :Shivtanium-font-pack
 Name;Shivtanium Font Pack
@@ -25,14 +25,14 @@ Info;SysShivt Virtual Machine (basically just a launcher)
 LatestVer;2.5.1
 NewsLink;None
 Authors;Shivter
-DefaultDownload;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-5-1.zip;zip
+DefaultDownload;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-5-1.zip;zip;SSVM-2-5-1.zip
 [Downloads]
-2.5.1;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-5-1.zip;zip
-2.5.0;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-5-0.zip;zip
-2.4.4;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-4-4.zip;zip
-2.4.2;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-4-2.zip;zip
-2.4.1;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-4-1.zip;zip
-2.3.1;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-3-1.zip;zip
+2.5.1;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-5-1.zip;zip;SSVM-2-5-1.zip
+2.5.0;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-5-0.zip;zip;SSVM-2-5-0.zip
+2.4.4;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-4-4.zip;zip;SSVM-2-4-4.zip
+2.4.2;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-4-2.zip;zip;SSVM-2-4-2.zip
+2.4.1;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-4-1.zip;zip;SSVM-2-4-1.zip
+2.3.1;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-3-1.zip;zip;SSVM-2-3-1.zip
 [\Downloads]
 :batch-lib
 Name;Windows Batch Library split into sublibraries
