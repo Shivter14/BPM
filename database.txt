@@ -40,9 +40,9 @@ Info;The Window Batch Library is a collection of pre-written macros, functions, 
 Authors;Icarus
 LatestVer;0.0.3
 NewsLink;None
-DefaultDownload;https://codeload.github.com/IcarusLivesHF/Batch-Libraries/zip/refs/heads/main;zip
+DefaultDownload;https://codeload.github.com/IcarusLivesHF/Batch-Libraries/zip/refs/heads/main;zip;Batch-Libraries-main.zip
 [Downloads]
-0.0.3;https://codeload.github.com/IcarusLivesHF/Batch-Libraries/zip/refs/heads/main;zip
+0.0.3;https://codeload.github.com/IcarusLivesHF/Batch-Libraries/zip/refs/heads/main;zip;Batch-Libraries-main.zip
 [\Downloads]
 :turtle-graphics
 Name;Turtle Graphics
