@@ -8,7 +8,7 @@ set "path=%~dp0packages;!path:%~dp0packages;=!"
 )
 
 setlocal enabledelayedexpansion
-set BPM.ver=1.1.3
+set BPM.ver=1.1.4
 for /f %%a in ('echo prompt $E^| cmd') do set "\e=%%a"
 if not exist "%~dp0\packages" md "%~dp0\packages"
 
@@ -32,7 +32,7 @@ for /f "tokens=1 delims==" %%a in ('set item.[ 2^>nul') do set "%%~a="
 if exist "%~dp0database.txt" del "%~dp0database.txt"
 <nul set /p "=%\e%[38;2;255;255;255m"
 cmd /c curl -# -o "%~dp0database.txt" "https://raw.githubusercontent.com/Shivter14/BPM/main/database.txt"
-<nul set /p "=%\e%[A%\e%[J"
+<nul set /p "=%\e%[K%\e%[A%\e%[K"
 if not exist "%~dp0database.txt" goto db-err
 set line=0
 set mode=#
@@ -95,10 +95,10 @@ if "!installed.[%update.package%].type!" neq "!packagetype!" (
 if /I "!update.packagetype!"=="zip" (
 	setlocal
 	pushd "%~dp0BPM-temp"
-	cmd /c curl -# -o package.zip "!update.link!"
+	cmd /c curl -fkLOs "!update.link:¤=?!"
 	if not exist package.zip cmd /c exit 1
 	if errorlevel 1 (
-		echo(%\e%[38;2;255;127;127mFailed to update "!update.package!" to version "!update.newversion!":
+		echo(%\e%[38;2;255;127;127mFailed to update%\e%[38;2;127;255;255m !update.package! %\e%[38;2;255;127;127mto version !update.newversion!:
 		echo(    Download failed.%\e%[38;2;255;255;255m
 		exit /b 1
 	)
@@ -127,7 +127,7 @@ if /I "!update.packagetype!"=="zip" (
 	popd
 	endlocal
 ) else if /I "!update.packagetype!"=="bat" (
-	cmd /c curl -# -o "%~dp0BPM-temp\package.bat" "!update.link!" || exit /b !errorlevel!
+	cmd /c curl -# -o "%~dp0BPM-temp\package.bat" "!update.link:¤=?!" || exit /b !errorlevel!
 	if not exist "%~dp0BPM-temp\package.bat" (
 		echo(%\e%[38;2;255;127;127mFailed to update "!update.package!":
 		echo(    Something went very wrong while downloading.%\e%[38;2;255;255;255m
@@ -141,7 +141,7 @@ if /I "!update.packagetype!"=="zip" (
 	)
 	>>"%~dp0BPM-LocalPackages.txt" echo(!update.package!;bat;!update.newversion!
 ) else if /I "!update.packagetype!"=="cmd" (
-	cmd /c curl -# -o "%~dp0BPM-temp\package.cmd" "!update.link!" || exit /b !errorlevel!
+	cmd /c curl -# -o "%~dp0BPM-temp\package.cmd" "!update.link:¤=?!" || exit /b !errorlevel!
 	if not exist "%~dp0BPM-temp\package.cmd" (
 		echo(%\e%[38;2;255;127;127mFailed to update "!update.package!":
 		echo(    Something went very wrong while downloading.%\e%[38;2;255;255;255m
@@ -155,14 +155,14 @@ if /I "!update.packagetype!"=="zip" (
 	)
 	>>"%~dp0BPM-LocalPackages.txt" echo(!update.package!;cmd;!update.newversion!
 ) else (
-	echo(%\e%[38;2;255;127;127mFailed to update "!update.package!":
+	echo(%\e%[38;2;255;127;127mFailed to update%\e%[38;2;127;255;255m !update.package! %\e%[38;2;255;127;127m:
 	echo(    Invalid package type: !update.packagetype!
 	echo(This is likely an error in the database. Create a bugfix request at:
 	echo(%\e%[38;2;63;63;255m  https://github.com/Shivter14/BPM
 	<nul set /p=%\e%[38;2;255;255;255m
 	exit /b 1
 )
-echo(%\e%[38;2;255;255;127mPackage "!update.package!" has been updated successfully.%\e%[38;2;255;255;255m
+echo(%\e%[38;2;255;255;127mPackage%\e%[38;2;127;255;255m !update.package! %\e%[38;2;255;255;127mhas been updated successfully.%\e%[38;2;255;255;255m
 exit /b
 :--install
 <nul set /p "=%\e%[38;2;255;255;255m"
@@ -171,9 +171,9 @@ call :get-installed || exit /b !errorlevel!
 if not exist "%~dp0BPM-temp" (
 	md "%~dp0BPM-temp"
 ) else (
-	echo(%\e%[38;2;255;255;255mIt seems like other packages are installing,
-	echo(or the installation was cancelled unexpectedly.
-	echo(Are you sure you want to continue installing?
+	echo=%\e%[38;2;255;255;255mIt seems like other packages are installing,
+	echo=or the installation was cancelled unexpectedly.
+	echo=Are you sure you want to continue installing?
 	choice
 	if "!errorlevel!" neq "1" exit /b
 	del /Q "%~dp0BPM-temp"
@@ -234,16 +234,16 @@ for %%a in (%*) do for /f "tokens=1* delims=:" %%i in ("%%~a") do if defined ins
 	)
 	if defined packagetype (
 		if /I "!packagetype!"=="zip" (
-			cmd /c curl -o "%~dp0BPM-temp\package.zip" "!link!" || (
-				echo(%\e%[38;2;255;127;127mFailed to install "!update.package!" to version "!update.newversion!":
+			pushd "%~dp0BPM-temp"
+			cmd /c curl -fkLOs "!link:¤=?!" || (
+				echo(%\e%[38;2;255;127;127mFailed to install "!packagid!":
 				echo(    Download failed.%\e%[38;2;255;255;255m
 			)
 			if not errorlevel 1 (
 				if not exist "%~dp0packages\!packageid!" md "%~dp0packages\!packageid!"
-				set "returndir=%cd%"
 				cd "%~dp0packages\!packageid!\"
 				cmd /c tar -xf "%~dp0BPM-temp\package.zip" || (
-					echo(%\e%[38;2;255;127;127mFailed to update "!update.package!" to version "!update.newversion!":
+					echo(%\e%[38;2;255;127;127mFailed to install%\e%[38;2;127;255;255m !update.package! %\e%[38;2;255;127;127mversion !update.newversion!:
 					echo(    Failed to extract package.zip.%\e%[38;2;255;255;255m
 				)
 				if exist "install.bat" call install.bat "!packageid!"
@@ -253,11 +253,11 @@ for %%a in (%*) do for /f "tokens=1* delims=:" %%i in ("%%~a") do if defined ins
 				echo(Errorlevel: !errorlevel!
 			) else (
 				>>"%~dp0BPM-LocalPackages.txt" echo(!packageid!;zip;!packagever!
-				cd "!returndir!"
 				echo(%\e%[3F%\e%[0J%\e%[38;2;255;255;127mPackage%\e%[38;2;127;255;255m !packageid! %\e%[38;2;255;255;127mwas installed successfully.%\e%[38;2;255;255;255m
 			)
+			popd
 		) else if /I "!packagetype!"=="bat" (
-			cmd /c curl -o "%~dp0packages\!packageid!.bat" "!link!"
+			cmd /c curl -o "%~dp0packages\!packageid!.bat" "!link:¤=?!"
 			if not exist "%~dp0packages\!packageid!.bat" cmd /c exit /b 1
 			if ERRORLEVEL 1 (
 				echo(%\e%[38;2;255;127;127mSomething went wrong while installing package "!packageid!" version !packagever!.
@@ -267,7 +267,7 @@ for %%a in (%*) do for /f "tokens=1* delims=:" %%i in ("%%~a") do if defined ins
 				echo(%\e%[3F%\e%[0J%\e%[38;2;255;255;127mPackage%\e%[38;2;127;255;255m !packageid! %\e%[38;2;255;255;127mwas installed successfully.%\e%[38;2;255;255;255m
 			)
 		) else if /I "!packagetype!"=="cmd" (
-			cmd /c curl -o "%~dp0packages\!packageid!.cmd" "!link!"
+			cmd /c curl -o "%~dp0packages\!packageid!.cmd" "!link:¤=?!"
 			if not exist "%~dp0packages\!packageid!.bat" cmd /c exit /b 1
 			if ERRORLEVEL 1 (
 				echo(%\e%[38;2;255;127;127mSomething went wrong while installing package "!packageid!" version !packagever!.
@@ -287,7 +287,7 @@ for %%a in (%*) do for /f "tokens=1* delims=:" %%i in ("%%~a") do if defined ins
 	set return=1
 )
 :x
-if exist "%~dp0BPM-temp" rd /s /q "%~dp0BPM-temp"
+rem if exist "%~dp0BPM-temp" rd /s /q "%~dp0BPM-temp"
 exit /b !return!
 :--search
 call :get-db || exit /b 1
@@ -387,6 +387,11 @@ if "!item.[%~1]!" neq "" (
 		set "temp.name=   %\e%[38;2;127;255;255m%%~a"
 		if "%~2" neq "--full-link" (
 			set "temp.dl=!temp.dl:https://=!"
+			for /f "tokens=2-6 delims=/" %%2 in ("!temp.dl!") do (
+				if "%%~4/%%~5"=="releases/download" (
+					set "temp.dl=%\e%[4m↓%\e%[24m %\e%[38;2;0;192;255mgithub.com/%%~2/%%~3/releases/%%~6"
+				)
+			)
 			set "temp.dl=!temp.dl:raw.githubusercontent.com/=₪ %\e%[38;2;127;255;127m!"
 			set "temp.dl=!temp.dl:codeload.github.com/=► %\e%[38;2;192;255;127m!"
 			if "!temp.dl!" neq "!temp.dl:objects.githubusercontent.com/=!" set "temp.dl=<GitHub object>"
