@@ -11,13 +11,13 @@ beta-1.0.0;https://github.com/Shivter14/Shivtanium/releases/download/beta-1.0.0/
 [\Downloads]
 :Shivtanium-font-pack
 Name;Shivtanium Font Pack
-Info;A font renderer + font in Batch.\nContains:\n  Shivtanium Phenomenal\n  Shivtanium Simple\n  + Demo
+Info;A font renderer + font in Batch created by using VT100.\nContains:\n  Shivtanium Phenomenal\n  Shivtanium Simple\n  + Demo
 Authors;Shivter, Icarus
-LatestVer;Rev-1
+LatestVer;Rev-2
 NewsLink;None
 DefaultDownload;https://raw.githubusercontent.com/Shivter14/Shivtanium/main/Shivtanium-Font-Pack.bat;bat
 [Downloads]
-Rev-1;https://raw.githubusercontent.com/Shivter14/Shivtanium/main/Shivtanium-Font-Pack.bat;bat
+Rev-2;https://raw.githubusercontent.com/Shivter14/Shivtanium/main/Shivtanium-Font-Pack.bat;bat
 [\Downloads]
 :SSVM
 Name;SSVM
