@@ -36,7 +36,7 @@ DefaultDownload;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/
 [\Downloads]
 :batch-lib
 Name;Windows Batch Library split into sublibraries
-Info;The Window Batch Library is a collection of pre-written macros, functions, and\nconstants that can be used to simplify and speed up the process of creating\ncommand-line interfaces (CLIs) and other types of text-based user interfaces\n(TUIs). This library includes a wide range of functions and macros,\nincluding standard console manipulations, mathematical calculations,\ncolor and text formatting, and mouse input.\n(Windows 10 or later)
+Info;The Window Batch Library is a collection of pre-written macros, functions, and\nconstants that can be used to simplify and speed up the process of creating\ncommand-line interfaces (CLIs) and other types of text-based user interfaces\n(TUIs). This library includes a wide range of functions and macros,\nincluding standard console manipulations, mathematical calculations,\ncolor and text formatting, and mouse input.\n[Windows 10 or later]
 Authors;Icarus
 LatestVer;95dfeec
 NewsLink;None
