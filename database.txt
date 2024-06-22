@@ -89,4 +89,5 @@ DefaultDownload;https://github.com/136MasterNR/Battles-of-Batch/releases/latest/
 0.305-alpha.2;https://github.com/136MasterNR/Battles-of-Batch/releases/download/v0305/Battles.Of.Batch.-.v0305.-.Second.Alpha.Release.zip;zip;Battles.Of.Batch.-.v0305.-.Second.Alpha.Release.zip
 0.273-indev;https://github.com/136MasterNR/Battles-of-Batch/releases/download/v0273/Battles.Of.Batch.-.v0273-.Tester.s.Release.16.zip;zip;Battles.Of.Batch.-.v0273-.Tester.s.Release.16.zip
 0.268-indev;https://github.com/136MasterNR/Battles-of-Batch/releases/download/v0268/Battles.Of.Batch.-.v0268.-.Tester.s.Release.15.zip;zip;Battles.Of.Batch.-.v0268.-.Tester.s.Release.15.zip
+0.250-alpha.1;https://github.com/136MasterNR/Battles-of-Batch/releases/download/v0250/Battles.Of.Batch.-.v0250.-.First.Alpha.Release.zip;zip;Battles.Of.Batch.-.v0250.-.First.Alpha.Release.zip
 [\Downloads]
