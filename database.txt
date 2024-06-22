@@ -78,10 +78,11 @@ DefaultDownload;https://raw.githubusercontent.com/AuchenDevs/WindowsFilesRecover
 Name;Battles of Batch
 Info;A fun little batch game
 LatestVer;0.4.44-christmas-indev.21
-Authors;136MasterNR
+Authors;136MasterNR, Grub4K
 NewsLink;None
 DefaultDownload;https://github.com/136MasterNR/Battles-of-Batch/releases/latest/download/Battles.Of.Batch.zip;zip;Battles.Of.Batch.zip
 [Downloads]
 0.4.44-christmas-indev.21;https://github.com/136MasterNR/Battles-of-Batch/releases/latest/download/Battles.Of.Batch.zip;zip;Battles.Of.Batch.zip
 0.4.40-alpha.4;https://github.com/136MasterNR/Battles-of-Batch/releases/download/v0.4.40/Battles.Of.Batch.zip;zip;Battles.Of.Batch.zip
+0.4.40-alpha.4_no-audio;https://github.com/136MasterNR/Battles-of-Batch/releases/download/v0.4.40/Battles.Of.Batch-No.Audio.zip;zip;Battles.Of.Batch-No.Audio.zip
 [\Downloads]
