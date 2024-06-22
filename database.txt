@@ -83,4 +83,5 @@ NewsLink;None
 DefaultDownload;https://github.com/136MasterNR/Battles-of-Batch/releases/latest/download/Battles.Of.Batch.zip;zip;Battles.Of.Batch.zip
 [Downloads]
 v0.4.44-christmas-indev.21;https://github.com/136MasterNR/Battles-of-Batch/releases/latest/download/Battles.Of.Batch.zip;zip;Battles.Of.Batch.zip
+v0.4.40-alpha.4;https://github.com/136MasterNR/Battles-of-Batch/releases/download/v0.4.40/Battles.Of.Batch.zip;zip;Battles.Of.Batch.zip
 [\Downloads]
