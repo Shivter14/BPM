@@ -74,3 +74,13 @@ DefaultDownload;https://raw.githubusercontent.com/AuchenDevs/WindowsFilesRecover
 [Downloads]
 1.2;https://raw.githubusercontent.com/AuchenDevs/WindowsFilesRecover/main/WindowsFilesRecover%20v1.2.bat;bat
 [\Downloads]
+:battles-of-batch
+Name;Battles of Batch
+Info;A fun little batch game
+LatestVer;v0.4.44-christmas-indev.21
+Authors;136MasterNR
+NewsLink;None
+DefaultDownload;https://github.com/136MasterNR/Battles-of-Batch/releases/latest/download/Battles.Of.Batch.zip;zip;Battles.Of.Batch.zip
+[Downloads]
+v0.4.44-christmas-indev.21;https://github.com/136MasterNR/Battles-of-Batch/releases/latest/download/Battles.Of.Batch.zip;zip;Battles.Of.Batch.zip
+[\Downloads]
