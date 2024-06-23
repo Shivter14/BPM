@@ -8,7 +8,7 @@ set "path=%~dp0packages;!path:%~dp0packages;=!"
 )
 
 setlocal enabledelayedexpansion
-set BPM.ver=1.1.5
+set BPM.ver=1.1.5_patch-1
 for /f %%a in ('echo prompt $E^| cmd') do set "\e=%%a"
 if not exist "%~dp0\packages" md "%~dp0\packages"
 
@@ -80,7 +80,7 @@ for %%a in (!installed!) do (
 	set "installed.[%%~a]="
 	set "installed.[%%~a].type="
 )
-call :get-installed
+call :get-installed || exit /b !errorlevel!
 set "update.package=%~1"
 set "update.newversion=%~2"
 set "update.packagetype=%~3"
@@ -96,7 +96,7 @@ if "!installed.[%update.package%].type!" neq "!packagetype!" (
 if /I "!update.packagetype!"=="zip" (
 	setlocal
 	pushd "%~dp0BPM-temp"
-	cmd /c curl -fkLOs "!update.link:¤=?!"
+	cmd /c curl -fkLO "!update.link:¤=?!"
 	if not exist "!update.packageFilename!" cmd /c exit 1
 	if errorlevel 1 (
 		echo(%\e%[38;2;255;127;127mFailed to update%\e%[38;2;127;255;255m !update.package! %\e%[38;2;255;127;127mto version !update.newversion!:
@@ -239,7 +239,7 @@ for %%a in (%*) do for /f "tokens=1* delims=:" %%i in ("%%~a") do if defined ins
 	if defined packagetype (
 		if /I "!packagetype!"=="zip" (
 			pushd "%~dp0BPM-temp"
-			cmd /c curl -fkLOs "!link:¤=?!" || (
+			cmd /c curl -fkLO "!link:¤=?!" || (
 				echo(%\e%[38;2;255;127;127mFailed to install "!packagid!":
 				echo(    Download failed.%\e%[38;2;255;255;255m
 			)
@@ -435,6 +435,7 @@ set return=0
 set update_packages=%*
 if not defined update_packages (
 	for %%a in (!installed!) do if "!installed.[%%~a]!" neq "!item.[%%~a].latestVer!" set update_packages=!update_packages! %%a
+	if not defined update_packages echo=%\e%[38;2;127;255;255mThere are no packages to update.%\e%[38;2;255;255;255m
 )
 for %%a in (!update_packages!) do for /f "tokens=1* delims=:" %%i in ("%%~a") do if "!installed.[%%~i]!" neq "" (
 	set packagever=
@@ -461,9 +462,9 @@ for %%a in (!update_packages!) do for /f "tokens=1* delims=:" %%i in ("%%~a") do
 		)
 	)
 	if /I "!installed.[%%~i]!"=="!packagever!" (
-		echo(%\e%[38;2;255;255;127mPackage "%%~i" version !packagever! is already installed.%\e%[38;2;255;255;255m
+		echo(%\e%[38;2;255;255;127mPackage%\e%[38;2;127;255;255m %%i %\e%[38;2;255;255;127mversion !packagever! is already installed.%\e%[38;2;255;255;255m
 	) else if defined packagever if not defined return (
-		echo(%\e%[38;2;255;255;127mPackage "%%~i" version !installed.[%%~i]! is currently installed.
+		echo(%\e%[38;2;255;255;127mPackage%\e%[38;2;127;255;255m %%i %\e%[38;2;255;255;127mversion !installed.[%%~i]! is currently installed.
 		echo(Do you want to update this package to version !packagever!^?%\e%[38;2;255;255;255m
 		choice
 		if "!errorlevel!"=="1" call :update "%%~i" "!packagever!" "!packagetype!" "!link!" "!packageFilename!" || set return=1
