@@ -21,7 +21,7 @@ Rev-2;https://raw.githubusercontent.com/Shivter14/Shivtanium/main/Shivtanium-Fon
 [\Downloads]
 :SSVM
 Name;SSVM 2
-Info;SysShivt Virtual Machine (Batch OS Launcher)
+Info;SysShivt Virtual Machine (Batch OS Launcher)\nCurrently in a limbo.
 LatestVer;2.5.1
 NewsLink;None
 Authors;Shivter
