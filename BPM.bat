@@ -8,32 +8,39 @@ set "path=%~dp0packages;!path:%~dp0packages;=!"
 )
 
 setlocal enabledelayedexpansion
-set BPM.ver=1.1.5_patch-1
+set BPM.ver=1.1.6_01
 for /f %%a in ('echo prompt $E^| cmd') do set "\e=%%a"
 if not exist "%~dp0\packages" md "%~dp0\packages"
 
 if "%~1"=="" goto --help
 if "%~1"=="/?" goto --help
 for %%a in (
-	"-$ --help" "-I --install" "-S --search" "-L --list" "-U --update" "-R --uninstall" "-V --version" "-H --info" "\\nul\call --call"
-) do for /f "tokens=1,2" %%b in (%%a) do (
-	set "option=%%~b"
+	"-$" "--help"
+	"-I" "--install"
+	"-S" "--search"
+	"-L" "--list"
+	"-U" "--update"
+	"-R" "--uninstall"
+	"-V" "--version"
+	"-H" "--info"
+	"-C" " --call"
+) do (
+	set "option=%%~a"
 	if /I "%~1"=="!option:$=?!" (
-		call :%%~c %2 %3 %4 %5 %6 %7 %8 %9 && REM This looks stupid but there is no other way
-		exit /b !errorlevel!
-	) else if /I "%~1"=="%%~c" (
 		call :%*
 		exit /b !errorlevel!
 	)
 )
 exit /b -1
 :get-db
-for /f "tokens=1 delims==" %%a in ('set item.[ 2^>nul') do set "%%~a="
+for /f "tokens=1 delims==" %%a in ('set item.[ 2^>nul') do set "%%~a="		%= Unloads all loaded items to prevent overwriting bugs =%
+
 if exist "%~dp0database.txt" del "%~dp0database.txt"
 <nul set /p "=%\e%[38;2;255;255;255m"
 cmd /c curl -# -o "%~dp0database.txt" "https://raw.githubusercontent.com/Shivter14/BPM/main/database.txt"
 <nul set /p "=%\e%[K%\e%[A%\e%[K"
 if not exist "%~dp0database.txt" goto db-err
+
 set line=0
 set mode=#
 set items=
@@ -41,17 +48,19 @@ for /f "tokens=1* delims=;" %%a in ('type "%~dp0\database.txt"') do (
 	set "token=%%~a"
 	set /a line+=1
 	if "!mode!"=="#" (
-		if "!token!" neq "# BPM Database" goto db-err
+		if "!token!" neq "# BPM Database" goto db-err	%= Makes sure that this is a BPM database file =%
 		set mode=
 	)
 	if "!token!"=="[\Downloads]" set mode=
+	
 	if "!mode!"=="Downloads" for %%x in ("!item!") do (
-		set item.[!item!].downloads=!item.[%%~x].downloads! "!token!"
-		set "item.[!item!].download.[!token!]=%%~b"
+		set item.[!item!].downloads=!item.[%%~x].downloads! "!token!" %= Format:  =%
+		set "item.[!item!].download.[!token!]=%%~b"		%= Multiple-downloads format: !item[ID].download.[Version]! - download-link;filetype;filename =%
 	)
 	if "!token!"=="[Downloads]" set mode=Downloads
+	
 	if "!mode!"=="Item" (
-		set "item.[!item!].%%~a=%%~b"
+		set "item.[!item!].%%~a=%%~b"	%= Item properties =%
 	)
 	if "!token:~0,1!"==":" (
 		set mode=Item
@@ -62,11 +71,11 @@ for /f "tokens=1* delims=;" %%a in ('type "%~dp0\database.txt"') do (
 )
 exit /b 0
 :db-err
-echo(Something went wrong. Check your internet connection.
+echo=Something went wrong. Check your internet connection.
 exit /b 1
 :get-installed
 if not exist "%~dp0BPM-LocalPackages.txt" (
-	echo(# BPM Installed Packages>"%~dp0BPM-LocalPackages.txt"
+	echo=# BPM Installed Packages>"%~dp0BPM-LocalPackages.txt"
 )
 set installed=
 for /f "tokens=1-3 eol=# delims=;" %%a in ('type "%~dp0BPM-LocalPackages.txt"') do (
@@ -87,10 +96,10 @@ set "update.packagetype=%~3"
 set "update.link=%~4"
 set "update.packageFilename=%~5"
 if "!installed.[%update.package%].type!" neq "!packagetype!" (
-	echo(%\e%[38;2;255;127;127mFailed to update "%update.package%":
-	echo(    Package types aren't equal: "!installed.[%update.package%].type!", "!packagetype!"
-	echo(Packages with unequal types cannot be upgraded.
-	echo(Try selecting a different version to update to.%\e%[38;2;255;255;255m
+	echo=%\e%[38;2;255;127;127mFailed to update "%update.package%":
+	echo=    Package types aren't equal: "!installed.[%update.package%].type!", "!packagetype!"
+	echo=Packages with unequal types cannot be upgraded.
+	echo=Try selecting a different version to update to.%\e%[38;2;255;255;255m
 	exit /b 1
 )
 if /I "!update.packagetype!"=="zip" (
@@ -165,6 +174,7 @@ if /I "!update.packagetype!"=="zip" (
 )
 echo(%\e%[38;2;255;255;127mPackage%\e%[38;2;127;255;255m !update.package! %\e%[38;2;255;255;127mhas been updated successfully.%\e%[38;2;255;255;255m
 exit /b
+:-I
 :--install
 <nul set /p "=%\e%[38;2;255;255;255m"
 call :get-db || exit /b !errorlevel!
@@ -293,6 +303,7 @@ for %%a in (%*) do for /f "tokens=1* delims=:" %%i in ("%%~a") do if defined ins
 :x
 if exist "%~dp0BPM-temp" rd /s /q "%~dp0BPM-temp"
 exit /b !return!
+:-S
 :--search
 call :get-db || exit /b 1
 set mode.W=80
@@ -346,6 +357,7 @@ for %%a in (!items!) do (
 )
 echo(%\e%[48;2;63;63;63m%\e%[0K%\e%[38;2;0;0;0m└!tab_header:~0,%tab_HW%!┘%\e%[!tab_one!G┴%\e%[!tab_two!G┴%\e%[38;2;255;255;255m%\e%[48;2;0;0;0m
 exit /b
+:-L
 :--list
 call :get-installed
 chcp 65001>nul 2>&1
@@ -368,6 +380,7 @@ for %%a in (!installed!) do (
 echo(%\e%[38;2;0;255;255mIf you want to get more information about a specified package,
 echo(use `%\e%[38;2;0;255;0mBPM --info %\e%[38;2;255;255;0m^<Package name^>%\e%[38;2;0;255;255m`%\e%[38;2;255;255;255m
 exit /b
+:-I
 :--info
 chcp 65001 > nul
 <nul set /p "=%\e%[38;2;255;255;255m"
@@ -413,6 +426,7 @@ if "!item.[%~1]!" neq "" (
 	exit /b 1
 )
 exit /b 0
+:-U
 :--update
 where choice > nul 2>&1 || (
 	echo Fatal error: 'choice' command was not found.
@@ -474,6 +488,7 @@ for %%a in (!update_packages!) do for /f "tokens=1* delims=:" %%i in ("%%~a") do
 )
 if exist "%~dp0BPM-temp" rd /s /q "%~dp0BPM-temp"
 exit /b
+:-R
 :--uninstall
 <nul set /p "=%\e%[38;2;255;255;255m"
 call :get-installed || exit /b !errorlevel!
@@ -528,6 +543,7 @@ for %%a in (%*) do if "%%~a"=="-F" (
 	set /a return+=1
 )
 exit /b !return!
+:-V
 :--version
 call :get-installed || exit /b !errorlevel!
 set list=%*
@@ -535,14 +551,15 @@ set return=0
 if not defined list set list=!installed!
 for %%a in (!list!) do (
 	if "!installed.[%%~a]!"=="" (
-		echo(
+		echo=
 		set /a return+=1
 	) else (
-		echo(%%~a:	!installed.[%%~a]!
+		echo=%%~a:	!installed.[%%~a]!
 	)
 )
 if "%~1"=="" echo BPM:	!bpm.ver!
 exit /b !return!
+:-C
 :--call
 call :get-installed || exit /b !errorlevel!
 for /f "tokens=1 delims=\" %%p in ("%~1") do (
@@ -562,6 +579,7 @@ for /f "tokens=1 delims=\" %%p in ("%~1") do (
 )
 
 exit /b
+:-?
 :--help
 for %%a in (
 	"BMP.bat|%\e%[38;2;0;255;0m  The Universal Batch Package Manager."
@@ -579,7 +597,7 @@ for %%a in (
 	"    -U|--update|[<ID>]|Updates specified packages."
 	"      |        |              |If no ID is specified, updates all installed."
 	"    -R|--uninstall|[-F] <identifier>|Uninstalls a package."
-	"      |--call|<ID>\<file> [<parameters>]|Calls an installed package."
+	"    -C|--call|<ID>\<file> [<parameters>]|Calls a program/script from an installed package."
 ) do (
 	for /f "tokens=1-4 delims=|" %%w in ("%%~a") do (
 		set "option=%%~w"
