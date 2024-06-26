@@ -20,7 +20,7 @@ DefaultDownload;https://raw.githubusercontent.com/Shivter14/Shivtanium/main/Shiv
 Rev-2;https://raw.githubusercontent.com/Shivter14/Shivtanium/main/Shivtanium-Font-Pack.bat;bat
 [\Downloads]
 :SSVM
-Name;SSVM 2
+Name;SSVM Legacy
 Info;SysShivt Virtual Machine (Batch OS Launcher)\nCurrently in a limbo.
 LatestVer;2.5.1
 NewsLink;None
