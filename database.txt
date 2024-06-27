@@ -1,7 +1,7 @@
 # BPM Database
 :Shivtanium
 Name;Shivtanium OS
-Info;The most advanced Batch OS Kernel\nFeatures: Interpreter, Multi-processing, DWM (Desktop Window Manager), themes, modding support, Batch programming API...\n<And more>
+Info;The most advanced Batch OS Kernel\nFeatures: Interpreter, Multi-processing, DWM (Desktop Window Manager), themes, modding support, Batch programming API...\n<And more>\n#OS #Graphics #Utility
 Authors;Shivter
 LatestVer;beta-1.0.0
 NewsLink;None
@@ -11,7 +11,7 @@ beta-1.0.0;https://github.com/Shivter14/Shivtanium/releases/download/beta-1.0.0/
 [\Downloads]
 :Shivtanium-font-pack
 Name;Shivtanium Font Pack
-Info;A font renderer + handmade font in Batch created by using VT100.\nContains:\n  Shivtanium Phenomenal\n  Shivtanium Simple\n  + Demo
+Info;A font renderer + handmade font in Batch created by using VT100.\nContains:\n  Shivtanium Phenomenal\n  Shivtanium Simple\n  + Demo\n#Graphics #Utility
 Authors;Shivter, Icarus
 LatestVer;Rev-2
 NewsLink;None
@@ -36,7 +36,7 @@ DefaultDownload;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/
 [\Downloads]
 :batch-lib
 Name;Windows Batch Library split into sublibraries
-Info;The Window Batch Library is a collection of pre-written macros, functions, and\nconstants that can be used to simplify and speed up the process of creating\ncommand-line interfaces (CLIs) and other types of text-based user interfaces\n(TUIs). This library includes a wide range of functions and macros,\nincluding standard console manipulations, mathematical calculations,\ncolor and text formatting, and mouse input.\n[Windows 10 or later]
+Info;The Window Batch Library is a collection of pre-written macros, functions, and\nconstants that can be used to simplify and speed up the process of creating\ncommand-line interfaces (CLIs) and other types of text-based user interfaces\n(TUIs). This library includes a wide range of functions and macros,\nincluding standard console manipulations, mathematical calculations,\ncolor and text formatting, and mouse input.\n#utility #graphics [Windows 10 or later]
 Authors;Icarus
 LatestVer;99526c7
 NewsLink;None
@@ -46,7 +46,7 @@ DefaultDownload;https://codeload.github.com/IcarusLivesHF/Batch-Libraries/zip/re
 [\Downloads]
 :turtle-graphics
 Name;Turtle Graphics
-Info;Turtle Graphics in Batch
+Info;Turtle Graphics in Batch\n#graphics
 LatestVer;aff5e3f
 Authors;Icarus
 NewsLink;None
@@ -76,7 +76,7 @@ DefaultDownload;https://raw.githubusercontent.com/AuchenDevs/WindowsFilesRecover
 [\Downloads]
 :battles-of-batch
 Name;Battles of Batch
-Info;A fun little batch game\nBattles of Batch is a RPG text game built for the Windows command prompt.\nWanderers fight in various battles against a variety of enemies as they progress through the game.\nThey can complete quests, acquire new items and weapons, and experience the game's story.
+Info;A fun little batch game\nBattles of Batch is a RPG text game built for the Windows command prompt.\nWanderers fight in various battles against a variety of enemies as they progress through the game.\nThey can complete quests, acquire new items and weapons, and experience the game's story.\n#games #graphics
 LatestVer;0.4.44-christmas-indev.21
 Authors;136MasterNR, Grub4K
 NewsLink;None
