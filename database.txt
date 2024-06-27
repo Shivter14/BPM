@@ -36,7 +36,7 @@ DefaultDownload;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/
 [\Downloads]
 :batch-lib
 Name;Windows Batch Library split into sublibraries
-Info;The Window Batch Library is a collection of pre-written macros, functions, and\nconstants that can be used to simplify and speed up the process of creating\ncommand-line interfaces (CLIs) and other types of text-based user interfaces\n(TUIs). This library includes a wide range of functions and macros,\nincluding standard console manipulations, mathematical calculations,\ncolor and text formatting, and mouse input.\n#utility #graphics [Windows 10 or later]
+Info;The Window Batch Library is a collection of pre-written macros, functions, and\nconstants that can be used to simplify and speed up the process of creating\ncommand-line interfaces (CLIs) and other types of text-based user interfaces\n(TUIs). This library includes a wide range of functions and macros,\nincluding standard console manipulations, mathematical calculations,\ncolor and text formatting, and mouse input.\n#Utility #Graphics [Windows 10 or later]
 Authors;Icarus
 LatestVer;99526c7
 NewsLink;None
@@ -46,7 +46,7 @@ DefaultDownload;https://codeload.github.com/IcarusLivesHF/Batch-Libraries/zip/re
 [\Downloads]
 :turtle-graphics
 Name;Turtle Graphics
-Info;Turtle Graphics in Batch\n#graphics
+Info;Turtle Graphics in Batch\n#Graphics
 LatestVer;aff5e3f
 Authors;Icarus
 NewsLink;None
