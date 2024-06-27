@@ -76,7 +76,7 @@ DefaultDownload;https://raw.githubusercontent.com/AuchenDevs/WindowsFilesRecover
 [\Downloads]
 :battles-of-batch
 Name;Battles of Batch
-Info;A fun little batch game\nBattles of Batch is a RPG text game built for the Windows command prompt.\nWanderers fight in various battles against a variety of enemies as they progress through the game.\nThey can complete quests, acquire new items and weapons, and experience the game's story.\n#games #graphics
+Info;A fun little batch game\nBattles of Batch is a RPG text game built for the Windows command prompt.\nWanderers fight in various battles against a variety of enemies as they progress through the game.\nThey can complete quests, acquire new items and weapons, and experience the game's story.\n#Games #Graphics
 LatestVer;0.4.44-christmas-indev.21
 Authors;136MasterNR, Grub4K
 NewsLink;None
