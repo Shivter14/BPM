@@ -4,6 +4,7 @@
   
   ![BPM --help](https://github.com/Shivter14/BPM/blob/main/BPM-help.png?raw=true)
 </div>
+# Features
 
 - Searching for projects & tools using keywords: `--search [<keywords>]`
 - Updating packages: `--update [<package>]`
