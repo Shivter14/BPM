@@ -11,7 +11,7 @@ beta-1.0.0;https://github.com/Shivter14/Shivtanium/releases/download/beta-1.0.0/
 [\Downloads]
 :Shivtanium-font-pack
 Name;Shivtanium Font Pack
-Info;A font renderer + handmade font in Batch created by using VT100.\nContains:\n  Shivtanium Phenomenal\n  Shivtanium Simple\n  + Demo\n#Graphics #Utility
+Info;A font renderer + handmade font in Batch created using VT100.\nContains:\n  Shivtanium Phenomenal\n  Shivtanium Simple\n  + Demo\n#Graphics #Utility
 Authors;Shivter, Icarus
 LatestVer;Rev-2
 NewsLink;None
