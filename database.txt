@@ -3,10 +3,11 @@
 Name;Shivtanium OS
 Info;The most advanced Batch OS Kernel\nFeatures: Interpreter, Multi-processing, DWM (Desktop Window Manager), themes, modding support, Batch programming API...\n<And more>\n#OS #Graphics #Utility
 Authors;Shivter
-LatestVer;beta-1.0.0
+LatestVer;beta-1.1.0
 NewsLink;None
-DefaultDownload;https://github.com/Shivter14/Shivtanium/releases/download/beta-1.0.0/package.zip;zip;package.zip
+DefaultDownload;https://github.com/Shivter14/Shivtanium/releases/download/beta-1.1.0/package.zip;zip;package.zip
 [Downloads]
+beta-1.1.0;https://github.com/Shivter14/Shivtanium/releases/download/beta-1.1.0/package.zip;zip;package.zip
 beta-1.0.0;https://github.com/Shivter14/Shivtanium/releases/download/beta-1.0.0/package.zip;zip;package.zip
 [\Downloads]
 :Shivtanium-font-pack
