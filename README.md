@@ -10,6 +10,7 @@
 - Searching for projects & tools using keywords: `--search [<keywords>]`
 - Updating packages: `--update [<package>]`
 - Installing specific versions of packages: `--install <package>:<version>`
+- Installing multiple packages at once: `--install <package> <another package> ...`
 - Getting more information about a package: `--info <package> [--full-link]`
 
 ## Package features
