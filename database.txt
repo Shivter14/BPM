@@ -83,8 +83,8 @@ Name;Battles of Batch
 Info;A fun little batch game\nBattles of Batch is a RPG text game built for the Windows command prompt.\nWanderers fight in various battles against a variety of enemies as they progress through the game.\nThey can complete quests, acquire new items and weapons, and experience the game's story.\n#Games #Graphics
 LatestVer;0.4.44-christmas-indev.21
 Authors;136MasterNR, Grub4K
-NewsLink;None
 DefaultDownload;https://github.com/136MasterNR/Battles-of-Batch/releases/latest/download/Battles.Of.Batch.zip;zip;Battles.Of.Batch.zip
+NewsLink;None
 [Downloads]
 0.4.44-christmas-indev.21;https://github.com/136MasterNR/Battles-of-Batch/releases/latest/download/Battles.Of.Batch.zip;zip;Battles.Of.Batch.zip
 0.4.40-alpha.4;https://github.com/136MasterNR/Battles-of-Batch/releases/download/v0.4.40/Battles.Of.Batch.zip;zip;Battles.Of.Batch.zip
