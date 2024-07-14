@@ -5,7 +5,7 @@ Info;The most advanced Batch OS Kernel along with systemb making it the most adv
 Authors;Shivter
 LatestVer;beta-1.2.3
 NewsLink;None
-DefaultDownload;https://github.com/Shivter14/Shivtanium/releases/download/beta-1.2.1/package.zip;zip;package.zip
+DefaultDownload;https://github.com/Shivter14/Shivtanium/releases/download/beta-1.2.3/package.zip;zip;package.zip
 [Downloads]
 beta-1.2.2;https://github.com/Shivter14/Shivtanium/releases/download/beta-1.2.2/package.zip;zip;package.zip
 beta-1.2.1;https://github.com/Shivter14/Shivtanium/releases/download/beta-1.2.1/package.zip;zip;package.zip
