@@ -14,7 +14,7 @@
 - Installing multiple packages at once: `--install <package> <another package> ...`
 - Getting more information about a package: `--info <package> [--full-link]`
 
-## Package features
+## Features for Packages
 - Packages can be _ZIP files_ containing the project, or a single batch file.
 - Packages can have install scripts, uninstall scripts, and upgrading scripts.
   
