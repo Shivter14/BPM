@@ -14,5 +14,6 @@ To do that, follow these steps:
 Your project and it's page must follow the following guidelines:
 
 - It must not be a *virus*.
+
 - It must be ![open source](https://opensource.com/resources/what-open-source) (Not an EXE made with converters)
 - You have to list all of the contributors & give them credits.
