@@ -9,6 +9,7 @@
 # Features
 
 - Searching for projects & tools using keywords: `--search [<keywords>]`
+
 - Updating packages: `--update [<package>]`
 
 - Installing specific versions of packages: `--install <package>:<version>`
