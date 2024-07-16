@@ -17,6 +17,7 @@
 ## Features for Packages
 
 - Packages can be _ZIP files_ containing the project, or a single batch file.
+
 - Packages can have install scripts, uninstall scripts, and upgrading scripts.
   
   Examples: `install.bat`, `update.bat`, `uninstall.bat`
