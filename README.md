@@ -25,4 +25,3 @@
 - Packages can have install scripts, uninstall scripts, and upgrading scripts.
   
   Examples: `install.bat`, `update.bat`, `uninstall.bat`
-  
