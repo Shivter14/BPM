@@ -1,7 +1,7 @@
 # BPM Database
 :Shivtanium
 Name;Shivtanium OS
-Info;The most advanced Batch OS Kernel, along with systemb making it the most advanced Batch OS ever created.\nFeatures: Kernel, Input manager, Interpreter, Multi-processing, DWM (Desktop Window Manager), themes, modding support, System updates, Batch programming API...\n<And more>\n#OS #Graphics #Utility
+Info;The most advanced Batch OS Kernel, along with systemb making it the most advanced Batch OS ever created.\nFeatures: Kernel, Input manager, Interpreter, Multi-processing, DWM (Desktop Window Manager), themes, modding support, System updates, Games, Batch programming API...\n<And more>\n#OS #Graphics #Utility
 Authors;Shivter
 LatestVer;beta-1.2.3
 NewsLink;None
