@@ -1,8 +1,8 @@
 ![BPM logo](https://github.com/Shivter14/BPM/blob/main/BPM.png?raw=true)
 <div align="center">
     BPM - The Universal Batch Package Manager
-
 <br></br>
+
 ![BPM --help](https://github.com/Shivter14/BPM/blob/main/BPM-help.png?raw=true)
 </div>
 
