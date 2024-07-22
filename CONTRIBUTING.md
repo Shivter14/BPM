@@ -7,7 +7,7 @@ To do that, follow these steps:
 
 - Give it the following label: `Add new project`
 
-- In the message, include your project's github link. (Example: github.com/Shivter14/Shivtanium)
+- In the message, include your project's github link. (Example: github.com/Shivter14/BPM)
 
 - Optionally, you can include a default download link.
 
