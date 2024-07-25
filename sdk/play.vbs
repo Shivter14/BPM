@@ -27,15 +27,15 @@
 '     Based on the same few snippets that can be found everywhere online.
 '
 ' AUTHOR
-'     sintrode, modify by RazorArt
+'     sintrode, modified by RazorArt
 '
 '     VERSION      DATE          AUTHOR                       DESCRIPTION
 '      -----   ------------    ----------      -----------------------------------------
+'	1.2	2024-07-24	RazorArt	- Added volume, pause and resume.
+'
 '	1.1	2018-08-29	sintrode	- Added mandatory and optional arguments
 '						- Reorganized code to use subroutines
 '	1.0	2018-08-28	sintrode	- Initial version
-'
-'	1.1	2024-07-24	RazorArt	-Added volume, pause and resume.
 '---------------------------------------------------------------------------------------
 Option Explicit
 
