@@ -16,7 +16,7 @@
 
 - Installing multiple packages at once: `--install <package> <another package> ...`
 
-- Getting more information about a package: `--info <package> [--full-link]`
+- Getting information & avaliable versions of a package: `--info <package> [--full-link]`
 
 ## Features for Packages
 
