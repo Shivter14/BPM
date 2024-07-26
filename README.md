@@ -20,7 +20,7 @@
 
 ## Features for Packages
 
-- Packages can be _ZIP files_ containing the project, or a single batch file.
+- Packages can be `.zip` files containing the project, or a single batch file.
 
 - Packages can have install scripts, uninstall scripts, and upgrading scripts.
   
