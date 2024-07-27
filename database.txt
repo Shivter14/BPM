@@ -27,7 +27,7 @@ Rev-2;https://raw.githubusercontent.com/Shivter14/Shivtanium/main/Shivtanium-Fon
 [\Downloads]
 :SSVM
 Name;SSVM
-Info;SysShivt Virtual Machine (Batch OS Launcher)\nThis tool can be used to load Batch scripts with getInput64.dll already initialized.\nSupported Batch OSes:\n- SysShivt tools 1.x, 2.x, 3.x\n- SysShivt tools 4 Tech Demo\n- Shivtanium 0.x\n- Shivtanium Beta 1.x
+Info;SysShivt Virtual Machine (Batch OS Launcher)\nThis tool can be used to load Batch scripts with getInput64.dll already initialized.\nSupported Batch OSes:\n- SysShivt tools 1.x, 2.x, 3.x\n- SysShivt tools 4 Tech Demo\n- Shivtanium Alpha 0.x\n- Shivtanium Beta 1.x
 LatestVer;3.0.3
 NewsLink;None
 Authors;Shivter
