@@ -14,7 +14,7 @@ To do that, follow these steps:
 
 - Optionally, you can include a default download link.
 
-Your project and it's page must follow the following guidelines:
+### Your project and it's page must follow the following guidelines:
 
 - It must not be a *virus*.
 
