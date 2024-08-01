@@ -8,7 +8,7 @@ To do that, follow these steps:
 
 - Give it the following label: `Add new project`
 
-- In the message, include the following things:
+- Write a message with the following things:
   - A package name for your project. (Example: `BPM`)
   - Your project's github link. (Example: github.com/Shivter14/BPM)
 
