@@ -6,7 +6,6 @@ set "path=%~dp0packages;!path:%~dp0packages;=!"
 	endlocal
 	set "path=%path%"
 )
-
 setlocal enabledelayedexpansion
 set BPM.ver=1.1.6_02
 for /f %%a in ('echo prompt $E^| cmd') do set "\e=%%a"
