@@ -7,7 +7,7 @@ LatestVer;beta-1.3.0
 NewsLink;None
 DefaultDownload;https://github.com/Shivter14/Shivtanium/releases/download/beta-1.3.0/package.zip;zip;package.zip
 [Downloads]
-github-80232e8;https://github.com/Shivter14/Shivtanium/archive/refs/heads/main.zip;zip;Shivtanium-main.zip
+github-b40a1dc;https://github.com/Shivter14/Shivtanium/archive/refs/heads/main.zip;zip;Shivtanium-main.zip
 beta-1.3.0;https://github.com/Shivter14/Shivtanium/releases/download/beta-1.3.0/package.zip;zip;package.zip
 beta-1.3.0_pre-1;https://github.com/Shivter14/Shivtanium/releases/download/beta-1.3.0_pre-1/package.zip;zip;package.zip
 beta-1.2.3;https://github.com/Shivter14/Shivtanium/releases/download/beta-1.2.3/package.zip;zip;package.zip
