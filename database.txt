@@ -34,7 +34,7 @@ Info;SysShivt Virtual Machine (Batch OS Launcher)\nThis tool can be used to load
 LatestVer;3.0.3
 NewsLink;None
 Authors;Shivter
-DefaultDownload;https://github.com/Shivter14/SSVM/releases/download/3.0.3/package.zip;zip;package.zip
+DefaultDownload;https://github.com/Shivter14/SSVM/releases/download/3.0.4/package.zip;zip;package.zip
 [Downloads]
 3.0.4;https://github.com/Shivter14/SSVM/releases/download/3.0.4/package.zip;zip;package.zip
 3.0.3;https://github.com/Shivter14/SSVM/releases/download/3.0.3/package.zip;zip;package.zip
