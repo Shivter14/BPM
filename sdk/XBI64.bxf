@@ -1,0 +1,38 @@
+@echo off & setlocal enableDelayedExpansion
+#function defESC
+	if not defined \e for /f %%a in ('echo prompt $E^| cmd') do set "\e=%%a"
+#end
+
+#function render
+	set "dispbuffer=%\e%[?25l!xbi.bg!"
+	(for %%a in (!elements!) do (
+		set "_dispbuffer=!dispbuffer!"
+		set "dispbuffer=!dispbuffer!%\e%[!xbi[%%~a]Y!;!xbi[%%~a]X!H!xbi[%%~a]S!"
+		if not defined dispbuffer (
+			set /p "=!_dispbuffer!"
+			set "dispbuffer=%\e%[!xbi[%%~a]Y!;!xbi[%%~a]X!H!xbi[%%~a]S!"
+		)
+	)
+	set "_dispbuffer=!dispbuffer!"
+	set "dispbuffer=!dispbuffer!!xbi.fg!"
+	if not defined dispbuffer (
+		set /p "=!_dispbuffer!"
+		set "dispbuffer=!xbi.fg!"
+	)
+	echo=!dispbuffer!%\e%[H
+	)<nul
+#end
+
+#function getInput
+	set "xbi.keys= !keysPressed!"
+	set "xbi.keysRN=!xbi.keys:-= !"
+	if "!xbi.keysRN!" neq "!keysPressedOld!" (
+		echo=keysPressed=!xbi.keys!
+		set /a ioTotal+=1
+	)
+	for %%k in (!keysPressedOld!) do set "xbi.keysRN=!xbi.keysRN: %%k = !"
+	set "keysPressedOld=!xbi.keys:-= !"
+
+	set "bxf.mouseXpos=!mouseXpos!" & set "bxf.mouseYpos=!mouseYpos!"
+	set "bxf.click=!click!"
+#end
