@@ -1,12 +1,14 @@
 # BPM Database
 :Shivtanium
 Name;Shivtanium OS
-Info;The most advanced Batch OS Kernel, along with systemb and BXF making it the most advanced Batch OS ever created.\nFeatures: Kernel, BXF Compiler, Standard libraries, Input manager, Multi-processing, DWM (Desktop Window Manager), themes, modding support, System updates, Games, Batch programming API...\n<And more>\n#OS #Graphics #Utility
+Info;A batch OS, along with BatchWindows and BXF making it the ultimate Batch OS.\nFeatures: Process controller, BXF Compiler, Standard libraries, Input manager, Multi-processing, BatchWindows (Window Manager), themes, modding support, System updates, Games, Batch programming API...\n<And more>\n#OS #Graphics #Utility
 Authors;Shivter
-LatestVer;beta-1.4.0_pre-1
+LatestVer;beta-1.4.1
 NewsLink;None
-DefaultDownload;https://github.com/Shivter14/Shivtanium/releases/download/beta-1.4.0_pre-1/package.zip;zip;package.zip
+DefaultDownload;https://github.com/Shivter14/Shivtanium/releases/download/beta-1.4.1/package.zip;zip;package.zip
 [Downloads]
+beta-1.4.1;https://github.com/Shivter14/Shivtanium/releases/download/beta-1.4.1/package.zip;zip;package.zip
+beta-1.4.0;https://github.com/Shivter14/Shivtanium/releases/download/beta-1.4.0/package.zip;zip;package.zip
 beta-1.4.0_pre-1;https://github.com/Shivter14/Shivtanium/releases/download/beta-1.4.0_pre-1/package.zip;zip;package.zip
 beta-1.3.2;https://github.com/Shivter14/Shivtanium/releases/download/beta-1.3.2/package.zip;zip;package.zip
 beta-1.3.1;https://github.com/Shivter14/Shivtanium/releases/download/beta-1.3.1/package.zip;zip;package.zip
