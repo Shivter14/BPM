@@ -6,8 +6,9 @@ set "path=%~dp0packages;!path:%~dp0packages;=!"
 	endlocal
 	set "path=%path%"
 )
+
 setlocal enabledelayedexpansion
-set BPM.ver=1.1.6_02
+set BPM.ver=1.2.0
 for /f %%a in ('echo prompt $E^| cmd') do set "\e=%%a"
 if not exist "%~dp0\packages" md "%~dp0\packages"
 
@@ -32,7 +33,7 @@ for %%a in (
 )
 exit /b -1
 :get-db
-for /f "tokens=1 delims==" %%a in ('set item.[ 2^>nul') do set "%%~a="		%= Unloads all loaded items to prevent overwriting bugs =%
+for /f "tokens=1 delims==" %%a in ('set item.[ 2^>nul') do set "%%~a="
 
 if exist "%~dp0database.txt" del "%~dp0database.txt"
 <nul set /p "=%\e%[38;2;255;255;255m"
@@ -53,8 +54,8 @@ for /f "tokens=1* delims=;" %%a in ('type "%~dp0\database.txt"') do (
 	if "!token!"=="[\Downloads]" set mode=
 	
 	if "!mode!"=="Downloads" for %%x in ("!item!") do (
-		set item.[!item!].downloads=!item.[%%~x].downloads! "!token!" %= Format:  =%
-		set "item.[!item!].download.[!token!]=%%~b"		%= Multiple-downloads format: !item[ID].download.[Version]! - download-link;filetype;filename =%
+		set item.[!item!].downloads=!item.[%%~x].downloads! "!token!"
+		set "item.[!item!].download.[!token!]=%%~b"
 	)
 	if "!token!"=="[Downloads]" set mode=Downloads
 	
@@ -94,6 +95,7 @@ set "update.newversion=%~2"
 set "update.packagetype=%~3"
 set "update.link=%~4"
 set "update.packageFilename=%~5"
+set "update.packageHash=%~6"
 if "!installed.[%update.package%].type!" neq "!packagetype!" (
 	echo=%\e%[38;2;255;127;127mFailed to update "%update.package%":
 	echo=    Package types aren't equal: "!installed.[%update.package%].type!", "!packagetype!"
@@ -116,6 +118,19 @@ if /I "!update.packagetype!"=="zip" (
 		echo=    The ZIP file seems to be 0 bytes in size.%\e%[38;2;255;255;255m
 		exit /b 1
 	)
+	set temp.hash=
+	for /f "skip=1" %%a in ('certutil -hashfile "!update.packageFilename!" SHA256') do (
+		if "%%~a" neq "CertUtil:" set "temp.hash=%%~a"
+	)
+	if "!temp.hash!" neq "!update.packageHash!" (
+		echo=%\e%[38;2;255;127;127mFailed to update "!update.package!" to version "!update.newversion!":
+		echo=    Failed to vertify package: Invalid hash.
+		echo=    The owner may have changed the package without updating the database.%\e%[38;2;255;255;255m
+		echo=    Expected hash: !update.packageHash!
+		echo=    Recieved hash: !temp.hash!
+		exit /b 1
+	)
+	set temp.hash=
 	cmd /c tar -xf "!update.packageFilename!" || (
 		echo=%\e%[38;2;255;127;127mFailed to update "!update.package!" to version "!update.newversion!":
 		echo=    Failed to extract the package.%\e%[38;2;255;255;255m
@@ -138,10 +153,25 @@ if /I "!update.packagetype!"=="zip" (
 ) else if /I "!update.packagetype!"=="bat" (
 	cmd /c curl -# -o "%~dp0BPM-temp\package.bat" "!update.link:¤=?!" || exit /b !errorlevel!
 	if not exist "%~dp0BPM-temp\package.bat" (
-		echo=%\e%[38;2;255;127;127mFailed to update "!update.package!":
-		echo=    Something went very wrong while downloading.%\e%[38;2;255;255;255m
+		echo=%\e%[38;2;255;127;127mFailed to update "!update.package!" to version "!update.newversion!":
+		echo=    Download failed.%\e%[38;2;255;255;255m
 		exit /b 1
 	)
+
+	set temp.hash=
+	for /f "skip=1" %%a in ('certutil -hashfile "%~dp0BPM-temp\package.bat" SHA256') do (
+		if "%%~a" neq "CertUtil:" set "temp.hash=%%~a"
+	)
+	if "!temp.hash!" neq "!update.packageHash!" (
+		echo=%\e%[38;2;255;127;127mFailed to update "!update.package!" to version "!update.newversion!":
+		echo=    Failed to vertify package: Invalid hash.
+		echo=    The owner may have changed the package without updating the database.%\e%[38;2;255;255;255m
+		echo=    Expected hash: !update.packageHash!
+		echo=    Recieved hash: !temp.hash!
+		exit /b 1
+	)
+	set temp.hash=
+
 	if exist "%~dp0packages\!update.package!.bat" del "%~dp0packages\!update.package!.bat" > nul 2>&1
 	move "%~dp0BPM-temp\package.bat" "%~dp0packages\!update.package!.bat" > nul 2>&1
 	echo=# BPM Installed Packages>"%~dp0BPM-LocalPackages.txt"
@@ -156,6 +186,21 @@ if /I "!update.packagetype!"=="zip" (
 		echo=    Something went very wrong while downloading.%\e%[38;2;255;255;255m
 		exit /b 1
 	)
+	
+	set temp.hash=
+	for /f "skip=1" %%a in ('certutil -hashfile "%~dp0BPM-temp\package.cmd" SHA256') do (
+		if "%%~a" neq "CertUtil:" set "temp.hash=%%~a"
+	)
+	if "!temp.hash!" neq "!update.packageHash!" (
+		echo=%\e%[38;2;255;127;127mFailed to update "!update.package!" to version "!update.newversion!":
+		echo=    Failed to vertify package: Invalid hash.
+		echo=    The owner may have changed the package without updating the database.%\e%[38;2;255;255;255m
+		echo=    Expected hash: !update.packageHash!
+		echo=    Recieved hash: !temp.hash!
+		exit /b 1
+	)
+	set temp.hash=
+	
 	if exist "%~dp0packages\!update.package!.cmd" del "%~dp0packages\!update.package!.cmd" > nul 2>&1
 	move "%~dp0BPM-temp\package.cmd" "%~dp0packages\!update.package!.cmd" > nul 2>&1
 	echo=# BPM Installed Packages>"%~dp0BPM-LocalPackages.txt"
@@ -195,18 +240,20 @@ for %%a in (%*) do for /f "tokens=1* delims=:" %%i in ("%%~a") do if defined ins
 	set return=
 	if "%%~j"=="" (
 		set "packagever=!item.[%%~i].latestVer!"
-		for /f "tokens=1-3 delims=;" %%x in ("!item.[%%~i].defaultDownload!") do (REM The link format is actually "<link>;<package type>". This seperates it.
-			set "link=%%~x"
-			set "packagetype=%%~y"
-			set "packageFilename=%%~z"
+		for /f "tokens=1-4 delims=;" %%w in ("!item.[%%~i].defaultDownload!") do (REM The link format is actually "<link>;<package type>". This seperates it.
+			set "link=%%~w"
+			set "packagetype=%%~x"
+			set "packageFilename=%%~y"
+			set "packageHash=%%~z"
 		)
 	) else (
 		if defined item.[%%~i].download.[%%~j] (
 			set "packagever=%%~j"
-			for /f "tokens=1-3 delims=;" %%s in ("!item.[%%~i].download.[%%~j]!") do (
+			for /f "tokens=1-4 delims=;" %%s in ("!item.[%%~i].download.[%%~j]!") do (
 				set "link=%%~s"
 				set "packagetype=%%~t"
 				set "packageFilename=%%~u"
+				set "packageHash=%%~v"
 			)
 		) else (
 			echo=%\e%[38;2;255;127;127mPackage %\e%[38;2;127;255;255m%%i %\e%[38;2;255;127;127mversion %\e%[38;2;127;255;255m%%j %\e%[38;2;255;127;127mwas not found.
@@ -220,7 +267,7 @@ for %%a in (%*) do for /f "tokens=1* delims=:" %%i in ("%%~a") do if defined ins
 		echo=%\e%[38;2;255;255;127mPackage%\e%[38;2;127;255;255m %%i %\e%[38;2;255;255;127mversion %\e%[38;2;127;255;255m!installed.[%%~i]!%\e%[38;2;255;255;127m is currently installed.
 		echo=Are you sure you want to install version%\e%[38;2;127;255;255m !packagever!%\e%[38;2;255;255;127m of that package^?%\e%[38;2;255;255;255m
 		choice
-		if "!errorlevel!"=="1" call :update "%%~i" "!packagever!" "!packagetype!" "!link!" "!packageFilename!" || set return=1
+		if "!errorlevel!"=="1" call :update "%%~i" "!packagever!" "!packagetype!" "!link!" "!packageFilename!" "!packageHash!" || set return=1
 	)
 ) else if defined item.[%%~i] (
 	set link=
@@ -240,10 +287,11 @@ for %%a in (%*) do for /f "tokens=1* delims=:" %%i in ("%%~a") do if defined ins
 		)
 	)
 	
-	for /f "tokens=1-3 delims=;" %%x in ("!link!") do (REM The link format is actually "<link>;<package type>". This seperates it.
-		set "link=%%~x"
-		set "packagetype=%%~y"
-		set "packageFilename=%%~z"
+	for /f "tokens=1-4 delims=;" %%w in ("!link!") do (REM The link format is actually "<link>;<package type>;<file name>;<hash>". This seperates it.
+		set "link=%%~w"
+		set "packagetype=%%~x"
+		set "packageFilename=%%~y"
+		set "packageHash=%%~z"
 	)
 	if defined packagetype (
 		if /I "!packagetype!"=="zip" (
@@ -253,13 +301,26 @@ for %%a in (%*) do for /f "tokens=1* delims=:" %%i in ("%%~a") do if defined ins
 				echo=    Download failed.%\e%[38;2;255;255;255m
 			)
 			if not errorlevel 1 (
-				if not exist "%~dp0packages\!packageid!" md "%~dp0packages\!packageid!"
-				cd "%~dp0packages\!packageid!\"
-				cmd /c tar -xf "%~dp0BPM-temp\!packageFilename!" || (
-					echo=%\e%[38;2;255;127;127mFailed to install%\e%[38;2;127;255;255m !packageId! %\e%[38;2;255;127;127mversion !packagever!:
-					echo=    Failed to extract the package.%\e%[38;2;255;255;255m
+				set temp.hash=
+				for /f "skip=1" %%a in ('certutil -hashfile "!packageFilename!" SHA256') do (
+					if "%%~a" neq "CertUtil:" set "temp.hash=%%~a"
 				)
-				if exist "install.bat" cmd /c install.bat "!packageid!"
+				if "!temp.hash!" neq "!packageHash!" (
+					echo=%\e%[38;2;255;127;127mFailed to install%\e%[38;2;127;255;255m !packageId! %\e%[38;2;255;127;127mversion !packagever!:
+					echo=    Failed to vertify package: Invalid hash.
+					echo=    The owner may have changed the package without updating the database.%\e%[38;2;255;255;255m
+					echo=    Expected hash: !packageHash!
+					echo=    Recieved hash: !temp.hash!
+					cmd /c exit 1
+				) else (
+					if not exist "%~dp0packages\!packageid!" md "%~dp0packages\!packageid!"
+					cd "%~dp0packages\!packageid!\"
+					cmd /c tar -xf "%~dp0BPM-temp\!packageFilename!" || (
+						echo=%\e%[38;2;255;127;127mFailed to install%\e%[38;2;127;255;255m !packageId! %\e%[38;2;255;127;127mversion !packagever!:
+						echo=    Failed to extract the package.%\e%[38;2;255;255;255m
+					)
+					if exist "install.bat" cmd /c install.bat "!packageid!"
+				)
 			)
 			if errorlevel 1 (
 				echo=Something went wrong while installing package "!packageid!" version !packagever!.
@@ -272,25 +333,59 @@ for %%a in (%*) do for /f "tokens=1* delims=:" %%i in ("%%~a") do if defined ins
 		) else if /I "!packagetype!"=="bat" (
 			cmd /c curl -o "%~dp0packages\!packageid!.bat" "!link:¤=?!"
 			if not exist "%~dp0packages\!packageid!.bat" cmd /c exit /b 1
-			if ERRORLEVEL 1 (
-				echo=%\e%[38;2;255;127;127mSomething went wrong while installing package "!packageid!" version !packagever!.
-				echo=Errorlevel: !errorlevel!%\e%[38;2;255;255;255m
+			if errorlevel 1 (
+				echo=%\e%[38;2;255;127;127mFailed to install%\e%[38;2;127;255;255m !packageId! %\e%[38;2;255;127;127mversion !packagever!:
+				echo=    Download failed.
+				echo=    Errorlevel: !errorlevel!%\e%[38;2;255;255;255m
 			) else (
-				>>"%~dp0BPM-LocalPackages.txt" echo=!packageid!;bat;!packagever!
-				echo=%\e%[38;2;255;255;127mPackage%\e%[38;2;127;255;255m !packageid! %\e%[38;2;255;255;127mwas installed successfully.%\e%[38;2;255;255;255m
+				set temp.hash=
+				for /f "skip=1" %%a in ('certutil -hashfile "%~dp0packages\!packageid!.bat" SHA256') do (
+					if "%%~a" neq "CertUtil:" set "temp.hash=%%~a"
+				)
+				if "!temp.hash!" neq "!packageHash!" (
+					echo=%\e%[38;2;255;127;127mFailed to install%\e%[38;2;127;255;255m !packageId! %\e%[38;2;255;127;127mversion !packagever!:
+					echo=    Failed to vertify package: Invalid hash.
+					echo=    The owner may have changed the package without updating the database.%\e%[38;2;255;255;255m
+					echo=    Expected hash: !packageHash!
+					echo=    Recieved hash: !temp.hash!
+				) else (
+					>>"%~dp0BPM-LocalPackages.txt" echo=!packageid!;bat;!packagever!
+					echo=%\e%[38;2;255;255;127mPackage%\e%[38;2;127;255;255m !packageid! %\e%[38;2;255;255;127mwas installed successfully.%\e%[38;2;255;255;255m
+				)
 			)
 		) else if /I "!packagetype!"=="cmd" (
 			cmd /c curl -o "%~dp0packages\!packageid!.cmd" "!link:¤=?!"
 			if not exist "%~dp0packages\!packageid!.bat" cmd /c exit /b 1
-			if ERRORLEVEL 1 (
+			if errorlevel 1 (
 				echo=%\e%[38;2;255;127;127mSomething went wrong while installing package "!packageid!" version !packagever!.
 				echo=Errorlevel: !errorlevel!%\e%[38;2;255;255;255m
 			) else (
-				>>"%~dp0BPM-LocalPackages.txt" echo=!packageid!;cmd;!packagever!
-				echo=%\e%[38;2;255;255;127mPackage%\e%[38;2;127;255;255m !packageid! %\e%[38;2;255;255;127mwas installed successfully.%\e%[38;2;255;255;255m
+				set temp.hash=
+				for /f "skip=1" %%a in ('certutil -hashfile "%~dp0packages\!packageid!.bat" SHA256') do (
+					if "%%~a" neq "CertUtil:" set "temp.hash=%%~a"
+				)
+				if "!temp.hash!" neq "!packageHash!" (
+					echo=%\e%[38;2;255;127;127mFailed to install%\e%[38;2;127;255;255m !packageId! %\e%[38;2;255;127;127mversion !packagever!:
+					echo=    Failed to vertify package: Invalid hash.
+					echo=    The owner may have changed the package without updating the database.%\e%[38;2;255;255;255m
+					echo=    Expected hash: !packageHash!
+					echo=    Recieved hash: !temp.hash!
+				) else (
+					>>"%~dp0BPM-LocalPackages.txt" echo=!packageid!;cmd;!packagever!
+					echo=%\e%[38;2;255;255;127mPackage%\e%[38;2;127;255;255m !packageid! %\e%[38;2;255;255;127mwas installed successfully.%\e%[38;2;255;255;255m
+				)
 			)
-		) else REM   \/
-	) else REM Todo: Add handeling for invalid package types
+		) else (
+			echo=%\e%[38;2;255;127;127mFatal error: Package %\e%[38;2;127;255;255m !packageid! %\e%[38;2;255;127;127mhas an invalid package type:%\e%[38;2;127;255;255m
+			echo=	!packagetype!
+			echo=%\e%[38;2;255;127;127mThe BPM database might be corrupted, or you're using an outdated version.%\e%[38;2;255;255;255m
+			exit /b 1
+		)
+	) else (
+		echo=%\e%[38;2;255;127;127mFatal error: Package %\e%[38;2;127;255;255m !packageid! %\e%[38;2;255;127;127mdoesn't have a package type somehow.
+		echo=The BPM database might be corrupted, or you're using an outdated version.%\e%[38;2;255;255;255m
+		exit /b 1
+	)
 ) else (
 	echo=%\e%[38;2;255;127;127mPackage%\e%[38;2;127;255;255m %%i%\e%[38;2;255;127;127m was not found.%\e%[38;2;255;255;255m
 	if not defined return (
@@ -302,6 +397,7 @@ for %%a in (%*) do for /f "tokens=1* delims=:" %%i in ("%%~a") do if defined ins
 :x
 if exist "%~dp0BPM-temp" rd /s /q "%~dp0BPM-temp"
 exit /b !return!
+
 :-S
 :--search
 call :get-db || exit /b 1
@@ -356,6 +452,7 @@ for %%a in (!items!) do (
 )
 echo=%\e%[48;2;63;63;63m%\e%[0K%\e%[38;2;0;0;0m└!tab_header:~0,%tab_HW%!┘%\e%[!tab_one!G┴%\e%[!tab_two!G┴%\e%[38;2;255;255;255m%\e%[48;2;0;0;0m
 exit /b
+
 :-L
 :--list
 call :get-installed
@@ -379,6 +476,7 @@ for %%a in (!installed!) do (
 echo=%\e%[38;2;0;255;255mIf you want to get more information about a specified package,
 echo=use `%\e%[38;2;0;255;0mBPM --info %\e%[38;2;255;255;0m^<Package name^>%\e%[38;2;0;255;255m`%\e%[38;2;255;255;255m
 exit /b
+
 :-I
 :--info
 chcp 65001 > nul
@@ -425,6 +523,7 @@ if "!item.[%~1]!" neq "" (
 	exit /b 1
 )
 exit /b 0
+
 :-U
 :--update
 where choice > nul 2>&1 || (
@@ -441,7 +540,7 @@ if not exist "%~dp0BPM-temp" (
 	echo=Are you sure you want to continue installing^?
 	choice
 	if "!errorlevel!" neq "1" exit /b
-	del /Q "%~dp0BPM-temp">nul	%= rem   Just in case if somebody decided to make a file with the name "BPM-temp" =%
+	del /Q "%~dp0BPM-temp">nul	%= rem   Just in case if a file with the name "BPM-temp" exists =%
 	if not exist "%~dp0BPM-temp" md "%~dp0BPM-temp"
 )
 set return=0
@@ -455,18 +554,20 @@ for %%a in (!update_packages!) do for /f "tokens=1* delims=:" %%i in ("%%~a") do
 	set return=
 	if "%%~j"=="" (
 		set "packagever=!item.[%%~i].latestVer!"
-		for /f "tokens=1-3 delims=;" %%x in ("!item.[%%~i].defaultDownload!") do (%= rem   The link format is actually "<link>;<package type>". This seperates it.=%
-			set "link=%%~x"
-			set "packagetype=%%~y"
-			set "packageFilename=%%~z"
+		for /f "tokens=1-4 delims=;" %%w in ("!item.[%%~i].defaultDownload!") do (%= rem   The link format is actually "<link>;<package type>;<file name>;<hash>". This seperates it.=%
+			set "link=%%~w"
+			set "packagetype=%%~x"
+			set "packageFilename=%%~y"
+			set "packageHash=%%~z"
 		)
 	) else (
 		if "!item.[%%~i].download.[%%~j]!" neq "" (
 			set "packagever=%%~j"
-			for /f "tokens=1* delims=;" %%s in ("!item.[%%~i].download.[%%~j]!") do (
+			for /f "tokens=1-4 delims=;" %%s in ("!item.[%%~i].download.[%%~j]!") do (
 				set "link=%%~s"
 				set "packagetype=%%~t"
 				set "packageFilename=%%~u"
+				set "packageHash=%%~v"
 			)
 		) else (
 			echo=%\e%[38;2;255;127;127mThe package version "%%~j" for "%%~i" was not found.
@@ -480,13 +581,14 @@ for %%a in (!update_packages!) do for /f "tokens=1* delims=:" %%i in ("%%~a") do
 		echo=%\e%[38;2;255;255;127mPackage%\e%[38;2;127;255;255m %%i %\e%[38;2;255;255;127mversion !installed.[%%~i]! is currently installed.
 		echo=Do you want to update this package to version !packagever!^?%\e%[38;2;255;255;255m
 		choice
-		if "!errorlevel!"=="1" call :update "%%~i" "!packagever!" "!packagetype!" "!link!" "!packageFilename!" || set return=1
+		if "!errorlevel!"=="1" call :update "%%~i" "!packagever!" "!packagetype!" "!link!" "!packageFilename!" "!packageHash!" || set return=1
 	)
 ) else (
 	echo=%\e%[38;2;255;127;127mPackage "%%~i" is not installed.%\e%[38;2;255;255;255m
 )
 if exist "%~dp0BPM-temp" rd /s /q "%~dp0BPM-temp"
 exit /b
+
 :-R
 :--uninstall
 <nul set /p "=%\e%[38;2;255;255;255m"
@@ -542,6 +644,7 @@ for %%a in (%*) do if "%%~a"=="-F" (
 	set /a return+=1
 )
 exit /b !return!
+
 :-V
 :--version
 call :get-installed || exit /b !errorlevel!
@@ -558,9 +661,11 @@ for %%a in (!list!) do (
 )
 if "%~1"=="" echo BPM:	!bpm.ver!
 exit /b !return!
+
 :-C
 :--call
 call :get-installed || exit /b !errorlevel!
+
 for /f "tokens=1 delims=\" %%p in ("%~1") do (
 	if "!installed.[%%~p]!"=="" (
 		echo=ERROR package_not_found
