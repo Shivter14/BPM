@@ -50,15 +50,15 @@ DefaultDownload;https://github.com/Shivter14/SSVM/releases/download/3.0.4/packag
 2.4.1;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-4-1.zip;zip;SSVM-2-4-1.zip;f042734853a1fe5f270537e590c4a23fa9ac805bfbadd0eab3278c275cf1323d
 2.3.1;https://raw.githubusercontent.com/Shivter14/SysShivt-tools/main/SSVM-2-3-1.zip;zip;SSVM-2-3-1.zip;5ea1f326346b038e87d94c9a87276eeae60b73db3933a8e2c82a54383b34b975
 [\Downloads]
-:batch-lib
-Name;Windows Batch Library split into sublibraries
-Info;The Window Batch Library is a collection of pre-written macros, functions, and\nconstants that can be used to simplify and speed up the process of creating\ncommand-line interfaces (CLIs) and other types of text-based user interfaces\n(TUIs). This library includes a wide range of functions and macros,\nincluding standard console manipulations, mathematical calculations,\ncolor and text formatting, and mouse input.\n#Utility #Graphics [Windows 10 or later]
+:Atlas
+Name;Atlas
+Info;A comprehensive Windows Batch Library, split into sublibraries to simplify and streamline the creation of \ncommand-line interfaces (CLIs) and text-based user interfaces (TUIs).
 Authors;Icarus
-LatestVer;a2570e3
+LatestVer;1.0.0
 NewsLink;None
-DefaultDownload;https://codeload.github.com/IcarusLivesHF/Atlas/zip/refs/heads/main;zip;main;c96e3afd2f1ef25eafd8567df3f4799f61b26a34a86ead488554038afa4464c8
+DefaultDownload;https://github.com/IcarusLivesHF/Atlas/releases/download/v1.0.0/Atlas.zip;zip;main;3bceeb4086646c0744e7a98183f15f6d5b2a0ab871a4e36889fd64ab20578ca6
 [Downloads]
-a2570e3;https://codeload.github.com/IcarusLivesHF/Atlas/zip/refs/heads/main;zip;main;c96e3afd2f1ef25eafd8567df3f4799f61b26a34a86ead488554038afa4464c8
+1.0.0;https://github.com/IcarusLivesHF/Atlas/releases/download/v1.0.0/Atlas.zip;zip;main;3bceeb4086646c0744e7a98183f15f6d5b2a0ab871a4e36889fd64ab20578ca6
 [\Downloads]
 :turtle-graphics
 Name;Turtle Graphics
@@ -68,7 +68,7 @@ Authors;Icarus
 NewsLink;None
 DefaultDownload;https://raw.githubusercontent.com/IcarusLivesHF/Turtle-Graphics/main/Turtle_Graphics.bat;bat;-;f6ea223a80d2f2200dbefa7ec92dab36768167c9034152c4ffcb890cc9d8b34a
 [Downloads]
-aff5e3f;https://raw.githubusercontent.com/IcarusLivesHF/Turtle-Graphics/main/Turtle_Graphics.bat;bat;-;f6ea223a80d2f2200dbefa7ec92dab36768167c9034152c4ffcb890cc9d8b34a
+1.0.0;https://raw.githubusercontent.com/IcarusLivesHF/Turtle-Graphics/main/Turtle_Graphics.bat;bat;-;f6ea223a80d2f2200dbefa7ec92dab36768167c9034152c4ffcb890cc9d8b34a
 [\Downloads]
 :RE
 Name;Resource Embedder
