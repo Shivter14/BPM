@@ -56,9 +56,9 @@ Info;A comprehensive Windows Batch Library, split into sublibraries to simplify 
 Authors;Icarus
 LatestVer;1.0.0
 NewsLink;None
-DefaultDownload;https://github.com/IcarusLivesHF/Atlas/releases/download/v1.0.0/Atlas.zip;zip;main;3bceeb4086646c0744e7a98183f15f6d5b2a0ab871a4e36889fd64ab20578ca6
+DefaultDownload;https://github.com/IcarusLivesHF/Atlas/releases/download/v1.0.0/Atlas.zip;zip;Atlas.zip;3bceeb4086646c0744e7a98183f15f6d5b2a0ab871a4e36889fd64ab20578ca6
 [Downloads]
-1.0.0;https://github.com/IcarusLivesHF/Atlas/releases/download/v1.0.0/Atlas.zip;zip;main;3bceeb4086646c0744e7a98183f15f6d5b2a0ab871a4e36889fd64ab20578ca6
+1.0.0;https://github.com/IcarusLivesHF/Atlas/releases/download/v1.0.0/Atlas.zip;zip;Atlas.zip;3bceeb4086646c0744e7a98183f15f6d5b2a0ab871a4e36889fd64ab20578ca6
 [\Downloads]
 :turtle-graphics
 Name;Turtle Graphics
